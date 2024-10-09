@@ -1,4 +1,5 @@
 from sqlalchemy import Boolean, Column, DateTime, Integer, String
+from sqlalchemy.orm import relationship
 
 from app.database.base import Base
 
@@ -18,3 +19,7 @@ class User(Base):
     is_superuser = Column(Boolean, default=False)
     reset_pin = Column(String, nullable=True)
     reset_pin_expiration = Column(DateTime, nullable=True)
+    journeys = relationship("Journey", back_populates="user")
+    payments = relationship("Payment", back_populates="user")
+    hourly_rates = relationship("HourlyRate", back_populates="user")
+    extra_expenses = relationship("ExtraExpense", back_populates="user")

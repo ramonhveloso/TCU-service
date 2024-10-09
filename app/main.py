@@ -5,14 +5,12 @@ from app.database.base import Base
 from app.database.session import engine
 
 app = FastAPI(
-    title="Boilerplate padrão back-end",
-    description="""Este boilerplate oferece uma estrutura inicial otimizada para 
-                    o desenvolvimento de APIs back-end robustas e escaláveis. 
-                    Com foco em boas práticas de arquitetura, inclui configurações 
-                    essenciais para autenticação, controle de erros, 
-                    testes automatizados. 
-                    Ideal para acelerar o desenvolvimento de projetos com FastAPI 
-                    e facilmente adaptável a diferentes contextos de aplicação.""",
+    title="Application Automa",
+    description="""Este projeto consiste em uma aplicação de backend robusta, 
+                    desenvolvida com FastAPI, que fornece uma API RESTful eficiente 
+                    e de alto desempenho. O sistema foi projetado para suportar um 
+                    front-end dinâmico, que foi desenvolvido com a assistência do GPT Engine, 
+                    garantindo uma interface de usuário intuitiva e envolvente.""",
     version="0.1.0",
 )
 
