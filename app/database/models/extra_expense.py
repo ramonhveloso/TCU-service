@@ -1,5 +1,6 @@
-from sqlalchemy import Column, DateTime, Float, ForeignKey, Integer, String
+from sqlalchemy import Column, DateTime, Enum, Float, ForeignKey, Integer, String
 from sqlalchemy.orm import relationship
+from sqlalchemy import func
 
 from app.database.base import Base
 
@@ -11,5 +12,8 @@ class ExtraExpense(Base):
     amount = Column(Float, nullable=False)
     description = Column(String, nullable=False)
     date = Column(DateTime, nullable=False)
-    status = Column(String, nullable=False)  # 'pending', 'approved', 'rejected'
-    user = relationship("User", back_populates="extra_expenses")
+    status = Column(Enum('pending', 'approved', 'rejected', name='expense_status'), nullable=False)
+    created_at = Column(DateTime, default=func.now())
+    deleted_at = Column(DateTime, nullable=True)
+    last_modified = Column(DateTime, default=func.now(), onupdate=func.now())
+    user = relationship('User', back_populates="extra_expenses")

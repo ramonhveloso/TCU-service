@@ -35,7 +35,6 @@ class AuthService:
         try:
             response_repository = await self.auth_repository.create_user(db, data)
         except:
-            # Lança uma exceção HTTP com status 409 se ocorrer um erro específico
             raise HTTPException(status_code=409, detail=f"Conflict")
 
         return PostSignUpResponse(

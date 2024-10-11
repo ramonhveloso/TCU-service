@@ -1,16 +1,21 @@
-"""Ajust is_superuser default column to User model
+"""Ajust in import user in models
 
-Revision ID: 5980dce820c0
-Revises: 79a61c852b39
-Create Date: 2024-10-02 16:19:13.797270
+Revision ID: 3c6f81901fb1
+Revises: 
+Create Date: 2024-10-11 13:56:54.062529
 
 """
-
 from typing import Sequence, Union
 
+import sqlalchemy as sa
+
+from alembic import op
+
+
+
 # revision identifiers, used by Alembic.
-revision: str = "5980dce820c0"
-down_revision: Union[str, None] = "79a61c852b39"
+revision: str = '3c6f81901fb1'
+down_revision: Union[str, None] = None
 branch_labels: Union[str, Sequence[str], None] = None
 depends_on: Union[str, Sequence[str], None] = None
 
