@@ -1,7 +1,7 @@
 from datetime import datetime
 from sqlalchemy.orm import Session
 
-from app.api.v1.extra_expenses.extra_expense_schemas import PostExtraExpenseRequest, PostExtraExpensesRequest, PutExtraExpenseRequest
+from app.api.v1.extra_expenses.extra_expense_schemas import PostExtraExpenseRequest, PutExtraExpenseRequest
 from app.database.models.extra_expense import ExtraExpense
 
 

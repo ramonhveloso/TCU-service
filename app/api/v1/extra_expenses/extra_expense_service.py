@@ -105,9 +105,7 @@ class ExtraExpenseService:
 
         return PostExtraExpensesResponse(
             message="ExtraExpenses created with some errors" if list_extra_expenses_errors else "ExtraExpenses created successfully",
-            response=PostExtraExpensesResponseData(
-                extra_expenses=list_extra_expenses
-            ),
+            response=list_extra_expenses,
             error=list_extra_expenses_errors if list_extra_expenses_errors else None
         )
 

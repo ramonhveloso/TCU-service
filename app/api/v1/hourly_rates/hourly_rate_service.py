@@ -12,6 +12,7 @@ from app.api.v1.hourly_rates.hourly_rate_schemas import (
     PostHourlyRateResponseData,
     PostHourlyRatesRequest,
     PostHourlyRatesResponse,
+    PostHourlyRatesResponseData,
     PutHourlyRateRequest,
     PutHourlyRateResponse,
     HourlyRate,
@@ -22,21 +23,35 @@ class HourlyRateService:
     def __init__(self, hourly_rate_repository: HourlyRateRepository = Depends()):
         self.hourly_rate_repository = hourly_rate_repository
 
-
+    def _build_response_data(self, response_repository):
+        return PostHourlyRateResponseData(
+            id=int(response_repository.id),
+            user_id=int(response_repository.user_id),
+            rate=float(response_repository.rate),
+            start_date=response_repository.start_date,
+            end_date=response_repository.end_date,
+            status=str(response_repository.status),
+            request_date=response_repository.request_date,
+            created_at=response_repository.created_at,
+            deleted_at=response_repository.deleted_at,
+            last_modified=response_repository.last_modified
+        )
+    
     async def get_all_hourly_rates(self, db: Session, user_id: int) -> GetHourlyRatesResponse:
         hourly_rates = await self.hourly_rate_repository.get_all_hourly_rates(user_id=user_id, db=db)
         if not hourly_rates:
-            raise HTTPException(status_code=404, detail="HourlyRates not found")
+            raise HTTPException(status_code=404, detail="Hourly rates not found")
         hourly_rates_list = [
             HourlyRate(id=hourly_rate.id,
-                    user_id=hourly_rate.user_id,
-                    start=hourly_rate.start,
-                    end=hourly_rate.end,
-                    hours_worked=hourly_rate.hours_worked,
-                    hourly_rate=hourly_rate.hourly_rate,
-                    description=hourly_rate.description,
-                    created_at=hourly_rate.created_at,
-                    last_modified=hourly_rate.last_modified)
+                         user_id=hourly_rate.user_id,
+                         rate=hourly_rate.rate,
+                         start_date=hourly_rate.start_date,
+                         end_date=hourly_rate.end_date,
+                         status=hourly_rate.status,
+                         request_date=hourly_rate.request_date,
+                         created_at=hourly_rate.created_at,
+                         deleted_at=hourly_rate.deleted_at,
+                         last_modified=hourly_rate.last_modified)
             for hourly_rate in hourly_rates
         ]
         return GetHourlyRatesResponse(hourly_rates=hourly_rates_list)
@@ -44,49 +59,67 @@ class HourlyRateService:
     async def get_hourly_rate_by_id(self, db: Session, user_id: int, hourly_rate_id: int) -> GetHourlyRateResponse:
         hourly_rate = await self.hourly_rate_repository.get_hourly_rate_by_id(db=db, user_id=user_id, hourly_rate_id=hourly_rate_id)
         if not hourly_rate:
-            raise HTTPException(status_code=404, detail="HourlyRate not found")
-        return GetHourlyRateResponse(id=hourly_rate.id, 
-                                  user_id=hourly_rate.user_id, 
-                                  start=hourly_rate.start, 
-                                  end=hourly_rate.end,
-                                  hours_worked=hourly_rate.hours_worked,
-                                  hourly_rate=hourly_rate.hourly_rate,
-                                  description=hourly_rate.description,
-                                  created_at=hourly_rate.created_at,
-                                  last_modified=hourly_rate.last_modified)
+            raise HTTPException(status_code=404, detail="Hourly rate not found")
+        return GetHourlyRateResponse(id=hourly_rate.id,
+                                       user_id=hourly_rate.user_id,
+                                       rate=hourly_rate.rate,
+                                       start_date=hourly_rate.start_date,
+                                       end_date=hourly_rate.end_date,
+                                       status=hourly_rate.status,
+                                       request_date=hourly_rate.request_date,
+                                       created_at=hourly_rate.created_at,
+                                       deleted_at=hourly_rate.deleted_at,
+                                       last_modified=hourly_rate.last_modified)
     
     async def post_hourly_rate(self, db: Session, user_id: int, hourly_rate: PostHourlyRateRequest) -> PostHourlyRateResponse:
-        hourly_rate = await self.hourly_rate_repository.post_hourly_rate(db=db, user_id=user_id, hourly_rate=hourly_rate)
-        return PostHourlyRateResponse(id=hourly_rate.id)
+        try:
+            response_repository = await self.hourly_rate_repository.post_hourly_rate(db=db, user_id=user_id, hourly_rate=hourly_rate)
+        except Exception:
+            raise HTTPException(status_code=400, detail="Hourly rate not created")
+        return PostHourlyRateResponse(message="Hourly rate created successfully",
+                                        response=PostHourlyRateResponseData(
+                                            id=int(response_repository.id),
+                                            user_id=int(response_repository.user_id),
+                                            rate=float(response_repository.rate),
+                                            start_date=response_repository.start_date,
+                                            end_date=response_repository.end_date,
+                                            status=str(response_repository.status),
+                                            request_date=response_repository.request_date,
+                                            created_at=response_repository.created_at,
+                                            deleted_at=response_repository.deleted_at,
+                                            last_modified=response_repository.last_modified
+                                        ))
     
     async def post_hourly_rates(self, db: Session, user_id: int, hourly_rates: PostHourlyRatesRequest) -> PostHourlyRatesResponse:
         list_hourly_rates = []
+        list_hourly_rates_errors = []
+
         for hourly_rate in hourly_rates.hourly_rates:
-            hourly_rate_response = await self.hourly_rate_repository.post_hourly_rate(db=db, user_id=user_id, hourly_rate=hourly_rate)
-            list_hourly_rates.append(PostHourlyRateResponseData(
-                id=hourly_rate_response.id,
-                user_id=user_id,
-                start=hourly_rate.start,
-                end=hourly_rate.end,
-                hours_worked=hourly_rate.hours_worked,
-                hourly_rate=hourly_rate.hourly_rate,
-                description=hourly_rate.description,
-                created_at=hourly_rate_response.created_at,
-                last_modified=hourly_rate_response.last_modified
-            ))
+            try:
+                response_repository = await self.hourly_rate_repository.post_hourly_rate(
+                    db=db, user_id=user_id, hourly_rate=hourly_rate
+                )
+                list_hourly_rates.append(self._build_response_data(response_repository))
+            
+            except Exception as e:
+                list_hourly_rates_errors.append({
+                    'error_message': str(e),
+                    'data': self._build_response_data(response_repository)
+                })
+
         return PostHourlyRatesResponse(
-            message="HourlyRates created successfully",
-            response=PostHourlyRateResponseData(
-                hourly_rates=list_hourly_rates
-            )
+            message="HourlyRates created with some errors" if list_hourly_rates_errors else "HourlyRates created successfully",
+            response=list_hourly_rates,
+            error=list_hourly_rates_errors if list_hourly_rates_errors else None
         )
+
 
     async def update_hourly_rate(
         self, db: Session, user_id: int, hourly_rate_id: int, hourly_rate: PutHourlyRateRequest
     ) -> PutHourlyRateResponse:
-        existing_hourly_rate = await self.hourly_rate_repository.get_hourly_rate_by_id(db=db, user_id=user_id, hourly_rate_id=hourly_rate_id, hourly_rate=hourly_rate)
+        existing_hourly_rate = await self.hourly_rate_repository.get_hourly_rate_by_id(db=db, user_id=user_id, hourly_rate_id=hourly_rate_id)
         if not hourly_rate:
-            raise HTTPException(status_code=404, detail="HourlyRate not found")
+            raise HTTPException(status_code=404, detail="Hourly rate not found")
 
         updated_hourly_rate = await self.hourly_rate_repository.update_hourly_rate(db=db, existing_hourly_rate=existing_hourly_rate, hourly_rate=hourly_rate)
         return PutHourlyRateResponse(
@@ -94,20 +127,21 @@ class HourlyRateService:
             response=PutHourlyRateResponseData(
                 id=updated_hourly_rate.id,
                 user_id=updated_hourly_rate.user_id,
-                start=updated_hourly_rate.start,
-                end=updated_hourly_rate.end,
-                hours_worked=updated_hourly_rate.hours_worked,
-                hourly_rate=updated_hourly_rate.hourly_rate,
-                description=updated_hourly_rate.description,
+                rate=updated_hourly_rate.rate,
+                start_date=updated_hourly_rate.start_date,
+                end_date=updated_hourly_rate.end_date,
+                status=updated_hourly_rate.status,
+                request_date=updated_hourly_rate.request_date,
                 created_at=updated_hourly_rate.created_at,
+                deleted_at=updated_hourly_rate.deleted_at,
                 last_modified=updated_hourly_rate.last_modified
             )
         )
 
-    async def delete_hourly_rate(self, db: Session, hourly_rate_id: int) -> DeleteHourlyRateResponse:
-        hourly_rate = await self.hourly_rate_repository.get_hourly_rate_by_id(db, hourly_rate_id)
+    async def delete_hourly_rate(self, db: Session, user_id: int, hourly_rate_id: int) -> DeleteHourlyRateResponse:
+        hourly_rate = await self.hourly_rate_repository.get_hourly_rate_by_id(db=db, user_id=user_id, hourly_rate_id=hourly_rate_id)
         if not hourly_rate:
-            raise HTTPException(status_code=404, detail="HourlyRate not found")
+            raise HTTPException(status_code=404, detail="Hourly rate not found")
 
         deleted_hourly_rate = await self.hourly_rate_repository.delete_hourly_rate(db, hourly_rate)
         return DeleteHourlyRateResponse(
@@ -115,12 +149,13 @@ class HourlyRateService:
             response=DeleteHourlyRateResponseData(
                 id=deleted_hourly_rate.id,
                 user_id=deleted_hourly_rate.user_id,
-                start=deleted_hourly_rate.start,
-                end=deleted_hourly_rate.end,
-                hours_worked=deleted_hourly_rate.hours_worked,
-                hourly_rate=deleted_hourly_rate.hourly_rate,
-                description=deleted_hourly_rate.description,
+                rate=deleted_hourly_rate.rate,
+                start_date=deleted_hourly_rate.start_date,
+                end_date=deleted_hourly_rate.end_date,
+                status=deleted_hourly_rate.status,
+                request_date=deleted_hourly_rate.request_date,
                 created_at=deleted_hourly_rate.created_at,
+                deleted_at=deleted_hourly_rate.deleted_at,
                 last_modified=deleted_hourly_rate.last_modified
             )
         )

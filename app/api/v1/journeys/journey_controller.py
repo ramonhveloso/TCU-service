@@ -50,7 +50,7 @@ async def post_journey(
     return PostHourlyRatesResponse.model_validate(response_service)
 
 
-@router.post("/")
+@router.post("/several")
 async def post_journeys(
     AuthUser: Annotated[AuthUser, Security(jwt_middleware)],
     journeys: PostHourlyRatesRequest = Depends(),

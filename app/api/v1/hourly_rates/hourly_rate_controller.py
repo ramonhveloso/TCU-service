@@ -9,6 +9,7 @@ from app.api.v1.hourly_rates.hourly_rate_schemas import (
     GetHourlyRateResponse,
     GetHourlyRatesResponse,
     PostHourlyRateRequest,
+    PostHourlyRateResponse,
     PostHourlyRatesRequest,
     PostHourlyRatesResponse,
     PutHourlyRateRequest,
@@ -45,12 +46,12 @@ async def post_hourly_rate(
     AuthUser: Annotated[AuthUser, Security(jwt_middleware)],
     hourly_rate: PostHourlyRateRequest = Depends(),
     db: Session = Depends(get_db),
-) -> PostHourlyRatesResponse:
+) -> PostHourlyRateResponse:
     response_service = await hourly_rate_service.post_hourly_rate(db=db, user_id=AuthUser.id, hourly_rate=hourly_rate)
-    return PostHourlyRatesResponse.model_validate(response_service)
+    return PostHourlyRateResponse.model_validate(response_service)
 
 
-@router.post("/")
+@router.post("/several")
 async def post_hourly_rates(
     AuthUser: Annotated[AuthUser, Security(jwt_middleware)],
     hourly_rates: PostHourlyRatesRequest = Depends(),

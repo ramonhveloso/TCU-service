@@ -7,12 +7,13 @@ from pydantic import BaseModel
 class HourlyRate(BaseModel):
     id: int
     user_id: int
-    start: datetime
-    end: datetime
-    hours_worked: float
-    hourly_rate: float
-    description: str
+    rate: float
+    start_date: datetime
+    end_date: Optional[datetime] = None
+    status: str
+    request_date: datetime
     created_at: datetime
+    deleted_at: Optional[datetime] = None
     last_modified: datetime
 
     class Config:
@@ -43,11 +44,9 @@ class GetHourlyRateResponse(HourlyRate):
     
 
 class PostHourlyRateRequest(BaseModel):
-    start: datetime
-    end: datetime
-    hours_worked: float
-    hourly_rate: float
-    description: str
+    rate: float
+    start_date: datetime
+    end_date: Optional[datetime] = None
 
     class Config:
         from_attributes = True
@@ -78,24 +77,29 @@ class PostHourlyRateResponseData(HourlyRate):
 
 class PostHourlyRateResponse(BaseModel):
     message: str
-    response: List[PostHourlyRateResponseData]
+    response: PostHourlyRateResponseData
 
 
 class PostHourlyRatesResponseData(HourlyRate):
     pass
 
+class PostHourlyRatesResponseErrorData(BaseModel):
+    error_message: str
+    data: Optional[PostHourlyRatesResponseData]
+
 
 class PostHourlyRatesResponse(BaseModel):
     message: str
-    response: PostHourlyRatesResponseData
+    response: List[PostHourlyRatesResponseData]
+    error: Optional[List[PostHourlyRatesResponseErrorData]] = None
 
 
 class PutHourlyRateRequest(BaseModel):
-    start: Optional[datetime] = None
-    end: Optional[datetime] = None
-    hours_worked: Optional[float] = None
-    hourly_rate: Optional[float] = None
-    description: Optional[str] = None
+    rate: float
+    start_date: datetime
+    end_date: Optional[datetime] = None
+    status: str
+    request_date: datetime
 
     class Config:
         from_attributes = True
