@@ -7,10 +7,10 @@ from app.database.models.extra_expense import ExtraExpense
 
 class ExtraExpenseRepository:
     async def get_all_extra_expenses(self, user_id: int, db: Session):
-        return db.query(ExtraExpense).filter(ExtraExpense.user_id == user_id).all()
+        return db.query(ExtraExpense).filter(ExtraExpense.user_id == user_id, ExtraExpense.deleted_at == None).all()
     
     async def get_extra_expense_by_id(self, db: Session, user_id: int, extra_expense_id: int):
-        return db.query(ExtraExpense).filter(ExtraExpense.id == extra_expense_id, ExtraExpense.user_id == user_id).first()
+        return db.query(ExtraExpense).filter(ExtraExpense.id == extra_expense_id, ExtraExpense.user_id == user_id, ExtraExpense.deleted_at == None).first()
 
     async def post_extra_expense(self, db: Session, user_id: int, extra_expense: PostExtraExpenseRequest):
         extra_expense = ExtraExpense(
@@ -30,11 +30,9 @@ class ExtraExpenseRepository:
         return extra_expense
 
     async def update_extra_expense(self, db: Session, existing_extra_expense: ExtraExpense, extra_expense: PutExtraExpenseRequest):
-        existing_extra_expense.start = extra_expense.start if extra_expense.start else existing_extra_expense.start # type: ignore
-        existing_extra_expense.end = extra_expense.end if extra_expense.end else existing_extra_expense.end # type: ignore
-        existing_extra_expense.hours_worked = extra_expense.hours_worked if extra_expense.hours_worked else existing_extra_expense.hours_worked # type: ignore
-        existing_extra_expense.hourly_rate = extra_expense.hourly_rate if extra_expense.hourly_rate else existing_extra_expense.hourly_rate # type: ignore
+        existing_extra_expense.amount = extra_expense.amount if extra_expense.amount else existing_extra_expense.amount # type: ignore
         existing_extra_expense.description = extra_expense.description if extra_expense.description else existing_extra_expense.description # type: ignore
+        existing_extra_expense.date = extra_expense.date if extra_expense.date else existing_extra_expense.date # type: ignore
         existing_extra_expense.last_modified = datetime.now()
 
         db.commit()
@@ -42,7 +40,8 @@ class ExtraExpenseRepository:
         return existing_extra_expense
 
     async def delete_extra_expense(self, db: Session, extra_expense: ExtraExpense):
-        db.delete(extra_expense)
+        extra_expense.deleted_at = datetime.now()
+        # db.delete(extra_expense)
         db.commit()
         return extra_expense
 

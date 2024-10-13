@@ -84,9 +84,15 @@ class PostExtraExpensesResponseData(ExtraExpense):
     pass
 
 
+class PostExtraExpensesResponseErrorData(BaseModel):
+    error_message: str
+    data: Optional[PostExtraExpensesResponseData]
+
+
 class PostExtraExpensesResponse(BaseModel):
     message: str
-    response: PostExtraExpensesResponseData
+    response: List[PostExtraExpensesResponseData]
+    error: Optional[List[PostExtraExpensesResponseErrorData]] = None
 
 
 class PutExtraExpenseRequest(BaseModel):

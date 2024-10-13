@@ -46,12 +46,12 @@ async def post_extra_expense(
     AuthUser: Annotated[AuthUser, Security(jwt_middleware)],
     extra_expense: PostExtraExpenseRequest = Depends(),
     db: Session = Depends(get_db),
-) -> PostExtraExpensesResponse:
+) -> PostExtraExpenseResponse:
     response_service = await extra_expense_service.post_extra_expense(db=db, user_id=AuthUser.id, extra_expense=extra_expense)
     return PostExtraExpenseResponse.model_validate(response_service)
            
            
-@router.post("/multiple")
+@router.post("/several")
 async def post_extra_expenses(
     AuthUser: Annotated[AuthUser, Security(jwt_middleware)],
     extra_expenses: PostExtraExpensesRequest = Depends(),
