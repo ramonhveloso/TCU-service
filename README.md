@@ -50,6 +50,11 @@ Para remover o container, use:
 
 `docker rm automa_local`
 
+## Executar container em Producao
+## Gerar imagem do container
+   `docker build --progress=plain -t erp-automa-back-end .`
+   `docker-compose up -d`
+
 ## Contribuição
 
 Se você deseja contribuir com o projeto, fique à vontade para fazer um fork do repositório e enviar um pull request.
