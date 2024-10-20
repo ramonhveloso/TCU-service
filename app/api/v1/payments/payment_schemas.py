@@ -7,12 +7,11 @@ from pydantic import BaseModel
 class Payment(BaseModel):
     id: int
     user_id: int
-    start: datetime
-    end: datetime
-    hours_worked: float
-    hourly_rate: float
-    description: str
+    amount: float
+    date: datetime
+    description: Optional[str] = None
     created_at: datetime
+    deleted_at: Optional[datetime] = None
     last_modified: datetime
 
     class Config:
@@ -43,12 +42,10 @@ class GetPaymentResponse(Payment):
     
 
 class PostPaymentRequest(BaseModel):
-    start: datetime
-    end: datetime
-    hours_worked: float
-    hourly_rate: float
-    description: str
-
+    amount: float
+    date: datetime
+    description: Optional[str] = None
+    
     class Config:
         from_attributes = True
 
@@ -78,23 +75,26 @@ class PostPaymentResponseData(Payment):
 
 class PostPaymentResponse(BaseModel):
     message: str
-    response: List[PostPaymentResponseData]
+    response: PostPaymentResponseData
 
 
 class PostPaymentsResponseData(Payment):
     pass
 
+class PostPaymentsResponseErrorData(BaseModel):
+    error_message: str
+    data: Optional[PostPaymentsResponseData]
+
 
 class PostPaymentsResponse(BaseModel):
     message: str
-    response: PostPaymentsResponseData
+    response: List[PostPaymentsResponseData]
+    error: Optional[List[PostPaymentsResponseErrorData]] = None
 
 
 class PutPaymentRequest(BaseModel):
-    start: Optional[datetime] = None
-    end: Optional[datetime] = None
-    hours_worked: Optional[float] = None
-    hourly_rate: Optional[float] = None
+    amount: float
+    date: datetime
     description: Optional[str] = None
 
     class Config:

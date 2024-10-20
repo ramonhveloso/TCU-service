@@ -1,47 +1,51 @@
 from datetime import datetime
 from sqlalchemy.orm import Session
 
-from app.api.v1.hourly_rates.hourly_rate_schemas import PostHourlyRateRequest, PostHourlyRatesRequest, PutHourlyRateRequest
-from app.database.models.hourly_rate import HourlyRate
+from app.api.v1.journeys.journey_schemas import PostJourneyRequest, PutJourneyRequest
+from app.database.models.journey import Journey
 
 
-class HourlyRateRepository:
-    async def get_all_hourly_rates(self, user_id: int, db: Session):
-        return db.query(HourlyRate).filter(HourlyRate.user_id == user_id).all()
+class JourneyRepository:
+    async def get_all_journeys(self, user_id: int, db: Session):
+        return db.query(Journey).filter(Journey.user_id == user_id, Journey.deleted_at == None).all()
     
-    async def get_hourly_rate_by_id(self, db: Session, user_id: int, hourly_rate_id: int):
-        return db.query(HourlyRate).filter(HourlyRate.id == hourly_rate_id, HourlyRate.user_id == user_id).first()
+    async def get_journey_by_id(self, db: Session, user_id: int, journey_id: int):
+        return db.query(Journey).filter(Journey.id == journey_id, Journey.user_id == user_id, Journey.deleted_at == None).first()
 
-    async def post_hourly_rate(self, db: Session, user_id: int, hourly_rate: PostHourlyRateRequest):
-        hourly_rate = HourlyRate(
+    async def post_journey(self, db: Session, user_id: int, journey: PostJourneyRequest):
+        journey = Journey(
             user_id=user_id,
-            start=hourly_rate.start,
-            end=hourly_rate.end,
-            hours_worked=hourly_rate.hours_worked,
-            hourly_rate=hourly_rate.hourly_rate,
-            description=hourly_rate.description,
+            start=journey.start,
+            end=journey.end,
+            hours_worked=journey.hours_worked,
+            hourly_rate=journey.hourly_rate,
+            description=journey.description,
             created_at=datetime.now(),
-            last_modified=datetime.now()
+            deleted_at=None,
+            last_modified=datetime.now(),
+
         )
-        db.add(hourly_rate)
+        db.add(journey)
         db.commit()
-        db.refresh(hourly_rate)
-        return hourly_rate
+        db.refresh(journey)
+        return journey
 
-    async def update_hourly_rate(self, db: Session, existing_hourly_rate: HourlyRate, hourly_rate: PutHourlyRateRequest):
-        existing_hourly_rate.start = hourly_rate.start if hourly_rate.start else existing_hourly_rate.start # type: ignore
-        existing_hourly_rate.end = hourly_rate.end if hourly_rate.end else existing_hourly_rate.end # type: ignore
-        existing_hourly_rate.hours_worked = hourly_rate.hours_worked if hourly_rate.hours_worked else existing_hourly_rate.hours_worked # type: ignore
-        existing_hourly_rate.hourly_rate = hourly_rate.hourly_rate if hourly_rate.hourly_rate else existing_hourly_rate.hourly_rate # type: ignore
-        existing_hourly_rate.description = hourly_rate.description if hourly_rate.description else existing_hourly_rate.description # type: ignore
-        existing_hourly_rate.last_modified = datetime.now()
+    async def update_journey(self, db: Session, existing_journey: Journey, journey: PutJourneyRequest):
+        existing_journey.start = journey.start if journey.start else existing_journey.start
+        existing_journey.end = journey.end if journey.end else existing_journey.end
+        existing_journey.hours_worked = journey.hours_worked if journey.hours_worked else existing_journey.hours_worked
+        existing_journey.hourly_rate = journey.hourly_rate if journey.hourly_rate else existing_journey.hourly_rate
+        existing_journey.description = journey.description if journey.description else existing_journey.description
+        existing_journey.last_modified = datetime.now()
 
         db.commit()
-        db.refresh(existing_hourly_rate)
-        return existing_hourly_rate
+        db.refresh(existing_journey)
+        return existing_journey
 
-    async def delete_hourly_rate(self, db: Session, hourly_rate: HourlyRate):
-        db.delete(hourly_rate)
+    async def delete_journey(self, db: Session, journey: Journey):
+        journey.deleted_at = datetime.now()
+        journey.last_modified = datetime.now()
+        # db.delete(journey)
         db.commit()
-        return hourly_rate
+        return journey
 

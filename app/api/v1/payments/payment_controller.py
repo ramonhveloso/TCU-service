@@ -9,6 +9,7 @@ from app.api.v1.payments.payment_schemas import (
     GetPaymentResponse,
     GetPaymentsResponse,
     PostPaymentRequest,
+    PostPaymentResponse,
     PostPaymentsRequest,
     PostPaymentsResponse,
     PutPaymentRequest,
@@ -45,12 +46,12 @@ async def post_payment(
     AuthUser: Annotated[AuthUser, Security(jwt_middleware)],
     payment: PostPaymentRequest = Depends(),
     db: Session = Depends(get_db),
-) -> PostPaymentsResponse:
+) -> PostPaymentResponse:
     response_service = await payment_service.post_payment(db=db, user_id=AuthUser.id, payment=payment)
-    return PostPaymentsResponse.model_validate(response_service)
+    return PostPaymentResponse.model_validate(response_service)
 
 
-@router.post("/")
+@router.post("/several")
 async def post_payments(
     AuthUser: Annotated[AuthUser, Security(jwt_middleware)],
     payments: PostPaymentsRequest = Depends(),

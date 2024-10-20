@@ -44,6 +44,7 @@ class HourlyRateRepository:
 
     async def delete_hourly_rate(self, db: Session, hourly_rate: HourlyRate):
         hourly_rate.deleted_at = datetime.now()
+        hourly_rate.last_modified = datetime.now()
         # db.delete(hourly_rate)
         db.commit()
         return hourly_rate

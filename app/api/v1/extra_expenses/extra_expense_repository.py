@@ -41,6 +41,7 @@ class ExtraExpenseRepository:
 
     async def delete_extra_expense(self, db: Session, extra_expense: ExtraExpense):
         extra_expense.deleted_at = datetime.now()
+        extra_expense.last_modified = datetime.now()
         # db.delete(extra_expense)
         db.commit()
         return extra_expense

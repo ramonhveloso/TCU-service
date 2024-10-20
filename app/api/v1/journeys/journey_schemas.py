@@ -3,16 +3,16 @@ from typing import List, Optional
 
 from pydantic import BaseModel
 
-
-class HourlyRate(BaseModel):
+class Journey(BaseModel):
     id: int
     user_id: int
     start: datetime
     end: datetime
     hours_worked: float
     hourly_rate: float
-    description: str
+    description: Optional[str] = None
     created_at: datetime
+    deleted_at: Optional[datetime] = None
     last_modified: datetime
 
     class Config:
@@ -25,8 +25,8 @@ class HourlyRate(BaseModel):
         return cls(**data)
 
 
-class GetHourlyRatesResponse(BaseModel):
-    hourly_rates: List[HourlyRate]
+class GetJourneysResponse(BaseModel):
+    journeys: List[Journey]
 
     class Config:
         from_attributes = True
@@ -38,63 +38,15 @@ class GetHourlyRatesResponse(BaseModel):
         return cls(**data)
 
 
-class GetHourlyRateResponse(HourlyRate):
+class GetJourneyResponse(Journey):
     pass
     
-
-class PostHourlyRateRequest(BaseModel):
+    
+class PostJourneyRequest(BaseModel):
     start: datetime
     end: datetime
     hours_worked: float
     hourly_rate: float
-    description: str
-
-    class Config:
-        from_attributes = True
-
-    @classmethod
-    def model_validate(cls, data):
-        if isinstance(data, cls):
-            data = data.model_dump()
-        return cls(**data)
-    
-
-class PostHourlyRatesRequest(BaseModel):
-    hourly_rates: List[PostHourlyRateRequest]
-
-    class Config:
-        from_attributes = True
-
-    @classmethod
-    def model_validate(cls, data):
-        if isinstance(data, cls):
-            data = data.model_dump()
-        return cls(**data)
-    
-
-class PostHourlyRateResponseData(HourlyRate):
-    pass
-    
-
-class PostHourlyRateResponse(BaseModel):
-    message: str
-    response: List[PostHourlyRateResponseData]
-
-
-class PostHourlyRatesResponseData(HourlyRate):
-    pass
-
-
-class PostHourlyRatesResponse(BaseModel):
-    message: str
-    response: PostHourlyRatesResponseData
-
-
-class PutHourlyRateRequest(BaseModel):
-    start: Optional[datetime] = None
-    end: Optional[datetime] = None
-    hours_worked: Optional[float] = None
-    hourly_rate: Optional[float] = None
     description: Optional[str] = None
 
     class Config:
@@ -107,13 +59,66 @@ class PutHourlyRateRequest(BaseModel):
         return cls(**data)
     
 
-class PutHourlyRateResponseData(HourlyRate):
+class PostJourneysRequest(BaseModel):
+    journeys: List[PostJourneyRequest]
+
+    class Config:
+        from_attributes = True
+
+    @classmethod
+    def model_validate(cls, data):
+        if isinstance(data, cls):
+            data = data.model_dump()
+        return cls(**data)
+    
+
+class PostJourneyResponseData(Journey):
+    pass
+    
+
+class PostJourneyResponse(BaseModel):
+    message: str
+    response: PostJourneyResponseData
+
+
+class PostJourneysResponseData(Journey):
+    pass
+
+class PostJourneysResponseErrorData(BaseModel):
+    error_message: str
+    data: Optional[PostJourneysResponseData]
+
+
+class PostJourneysResponse(BaseModel):
+    message: str
+    response: List[PostJourneysResponseData]
+    error: Optional[List[PostJourneysResponseErrorData]] = None
+
+
+class PutJourneyRequest(BaseModel):
+    start: datetime
+    end: datetime
+    hours_worked: float
+    hourly_rate: float
+    description: Optional[str] = None
+
+    class Config:
+        from_attributes = True
+
+    @classmethod
+    def model_validate(cls, data):
+        if isinstance(data, cls):
+            data = data.model_dump()
+        return cls(**data)
+    
+
+class PutJourneyResponseData(Journey):
     pass
 
 
-class PutHourlyRateResponse(BaseModel):
+class PutJourneyResponse(BaseModel):
     message: str
-    response: PutHourlyRateResponseData
+    response: PutJourneyResponseData
 
     class Config:
         from_attributes = True
@@ -125,13 +130,13 @@ class PutHourlyRateResponse(BaseModel):
         return cls(**data)
 
 
-class DeleteHourlyRateResponseData(HourlyRate):
+class DeleteJourneyResponseData(Journey):
     pass
 
 
-class DeleteHourlyRateResponse(BaseModel):
+class DeleteJourneyResponse(BaseModel):
     message: str
-    response: DeleteHourlyRateResponseData
+    response: DeleteJourneyResponseData
 
 
     class Config:
