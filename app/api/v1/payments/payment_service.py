@@ -142,7 +142,6 @@ class PaymentService:
                 amount=deleted_payment.amount,
                 date=deleted_payment.date,
                 description=deleted_payment.description,
-                request_date=deleted_payment.request_date,
                 created_at=deleted_payment.created_at,
                 deleted_at=deleted_payment.deleted_at,
                 last_modified=deleted_payment.last_modified
