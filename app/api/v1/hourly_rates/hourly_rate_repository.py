@@ -35,7 +35,6 @@ class HourlyRateRepository:
         existing_hourly_rate.start_date = hourly_rate.start_date if hourly_rate.start_date else existing_hourly_rate.start_date
         existing_hourly_rate.end_date = hourly_rate.end_date if hourly_rate.end_date else existing_hourly_rate.end_date
         existing_hourly_rate.status = hourly_rate.status if hourly_rate.status else existing_hourly_rate.status
-        existing_hourly_rate.request_date = hourly_rate.request_date if hourly_rate.request_date else existing_hourly_rate.request_date
         existing_hourly_rate.last_modified = datetime.now()
 
         db.commit()

@@ -99,7 +99,6 @@ class PutHourlyRateRequest(BaseModel):
     start_date: datetime
     end_date: Optional[datetime] = None
     status: str
-    request_date: datetime
 
     class Config:
         from_attributes = True
