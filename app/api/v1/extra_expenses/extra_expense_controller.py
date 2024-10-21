@@ -1,6 +1,6 @@
 from typing import Annotated
 
-from fastapi import APIRouter, Depends, Security
+from fastapi import APIRouter, Depends, Security, status
 from sqlalchemy.orm import Session
 
 from app.api.v1.extra_expenses.extra_expense_repository import ExtraExpenseRepository
@@ -41,7 +41,7 @@ async def get_extra_expense(
     return GetExtraExpenseResponse.model_validate(response_service)
 
 
-@router.post("/")
+@router.post("/", status_code=status.HTTP_201_CREATED)
 async def post_extra_expense(
     AuthUser: Annotated[AuthUser, Security(jwt_middleware)],
     extra_expense: PostExtraExpenseRequest = Depends(),
@@ -51,7 +51,7 @@ async def post_extra_expense(
     return PostExtraExpenseResponse.model_validate(response_service)
            
            
-@router.post("/several")
+@router.post("/multiple", status_code=status.HTTP_201_CREATED)
 async def post_extra_expenses(
     AuthUser: Annotated[AuthUser, Security(jwt_middleware)],
     extra_expenses: PostExtraExpensesRequest = Depends(),

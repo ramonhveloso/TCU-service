@@ -1,6 +1,6 @@
 from typing import Annotated
 
-from fastapi import APIRouter, Depends, Security
+from fastapi import APIRouter, Depends, Security, status
 from sqlalchemy.orm import Session
 
 from app.api.v1.payments.payment_repository import PaymentRepository
@@ -41,7 +41,7 @@ async def get_payment(
     return GetPaymentResponse.model_validate(response_service)
 
 
-@router.post("/")
+@router.post("/", status_code=status.HTTP_201_CREATED)
 async def post_payment(
     AuthUser: Annotated[AuthUser, Security(jwt_middleware)],
     payment: PostPaymentRequest = Depends(),
@@ -51,7 +51,7 @@ async def post_payment(
     return PostPaymentResponse.model_validate(response_service)
 
 
-@router.post("/several")
+@router.post("/multiple", status_code=status.HTTP_201_CREATED)
 async def post_payments(
     AuthUser: Annotated[AuthUser, Security(jwt_middleware)],
     payments: PostPaymentsRequest = Depends(),

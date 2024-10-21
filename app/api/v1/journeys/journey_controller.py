@@ -1,6 +1,6 @@
 from typing import Annotated
 
-from fastapi import APIRouter, Depends, Security
+from fastapi import APIRouter, Depends, Security, status
 from sqlalchemy.orm import Session
 
 from app.api.v1.journeys.journey_repository import JourneyRepository
@@ -41,7 +41,7 @@ async def get_journey(
     return GetJourneyResponse.model_validate(response_service)
 
 
-@router.post("/")
+@router.post("/", status_code=status.HTTP_201_CREATED)
 async def post_journey(
     AuthUser: Annotated[AuthUser, Security(jwt_middleware)],
     journey: PostJourneyRequest = Depends(),
@@ -51,7 +51,7 @@ async def post_journey(
     return PostJourneyResponse.model_validate(response_service)
 
 
-@router.post("/several")
+@router.post("/multiple", status_code=status.HTTP_201_CREATED)
 async def post_journeys(
     AuthUser: Annotated[AuthUser, Security(jwt_middleware)],
     journeys: PostJourneysRequest = Depends(),

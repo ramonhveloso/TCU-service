@@ -1,6 +1,6 @@
 from typing import Annotated
 
-from fastapi import APIRouter, Depends, Security
+from fastapi import APIRouter, Depends, Security, status
 from sqlalchemy.orm import Session
 
 from app.api.v1.hourly_rates.hourly_rate_repository import HourlyRateRepository
@@ -41,7 +41,7 @@ async def get_hourly_rate(
     return GetHourlyRateResponse.model_validate(response_service)
 
 
-@router.post("/")
+@router.post("/", status_code=status.HTTP_201_CREATED)
 async def post_hourly_rate(
     AuthUser: Annotated[AuthUser, Security(jwt_middleware)],
     hourly_rate: PostHourlyRateRequest = Depends(),
@@ -51,7 +51,7 @@ async def post_hourly_rate(
     return PostHourlyRateResponse.model_validate(response_service)
 
 
-@router.post("/several")
+@router.post("/multiple", status_code=status.HTTP_201_CREATED)
 async def post_hourly_rates(
     AuthUser: Annotated[AuthUser, Security(jwt_middleware)],
     hourly_rates: PostHourlyRatesRequest = Depends(),
