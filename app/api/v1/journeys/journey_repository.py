@@ -13,11 +13,13 @@ class JourneyRepository:
         return db.query(Journey).filter(Journey.id == journey_id, Journey.user_id == user_id, Journey.deleted_at == None).first()
 
     async def post_journey(self, db: Session, user_id: int, journey: PostJourneyRequest):
+        time_worked = journey.end - journey.start
+        hours_worked = time_worked.total_seconds() / 3600
         journey = Journey(
             user_id=user_id,
             start=journey.start,
             end=journey.end,
-            hours_worked=journey.hours_worked,
+            hours_worked=hours_worked,
             hourly_rate=journey.hourly_rate,
             description=journey.description,
             created_at=datetime.now(),
@@ -31,9 +33,12 @@ class JourneyRepository:
         return journey
 
     async def update_journey(self, db: Session, existing_journey: Journey, journey: PutJourneyRequest):
+        time_worked = journey.end - journey.start
+        hours_worked = time_worked.total_seconds() / 3600
+        
         existing_journey.start = journey.start if journey.start else existing_journey.start
         existing_journey.end = journey.end if journey.end else existing_journey.end
-        existing_journey.hours_worked = journey.hours_worked if journey.hours_worked else existing_journey.hours_worked
+        existing_journey.hours_worked = hours_worked
         existing_journey.hourly_rate = journey.hourly_rate if journey.hourly_rate else existing_journey.hourly_rate
         existing_journey.description = journey.description if journey.description else existing_journey.description
         existing_journey.last_modified = datetime.now()

@@ -45,7 +45,6 @@ class GetJourneyResponse(Journey):
 class PostJourneyRequest(BaseModel):
     start: datetime
     end: datetime
-    hours_worked: float
     hourly_rate: float
     description: Optional[str] = None
 
@@ -98,7 +97,6 @@ class PostJourneysResponse(BaseModel):
 class PutJourneyRequest(BaseModel):
     start: datetime
     end: datetime
-    hours_worked: float
     hourly_rate: float
     description: Optional[str] = None
 
