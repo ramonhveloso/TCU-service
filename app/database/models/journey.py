@@ -16,4 +16,4 @@ class Journey(Base):
     created_at = Column(DateTime, default=func.now())
     deleted_at = Column(DateTime, nullable=True)
     last_modified = Column(DateTime, default=func.now(), onupdate=func.now())
-    user = relationship('User', back_populates="journeys")
+    user = relationship("User", back_populates="journeys")

@@ -39,13 +39,13 @@ class GetPaymentsResponse(BaseModel):
 
 class GetPaymentResponse(Payment):
     pass
-    
+
 
 class PostPaymentRequest(BaseModel):
     amount: float
     date: datetime
     description: Optional[str] = None
-    
+
     class Config:
         from_attributes = True
 
@@ -54,7 +54,7 @@ class PostPaymentRequest(BaseModel):
         if isinstance(data, cls):
             data = data.model_dump()
         return cls(**data)
-    
+
 
 class PostPaymentsRequest(BaseModel):
     payments: List[PostPaymentRequest]
@@ -67,11 +67,11 @@ class PostPaymentsRequest(BaseModel):
         if isinstance(data, cls):
             data = data.model_dump()
         return cls(**data)
-    
+
 
 class PostPaymentResponseData(Payment):
     pass
-    
+
 
 class PostPaymentResponse(BaseModel):
     message: str
@@ -80,6 +80,7 @@ class PostPaymentResponse(BaseModel):
 
 class PostPaymentsResponseData(Payment):
     pass
+
 
 class PostPaymentsResponseErrorData(BaseModel):
     error_message: str
@@ -105,7 +106,7 @@ class PutPaymentRequest(BaseModel):
         if isinstance(data, cls):
             data = data.model_dump()
         return cls(**data)
-    
+
 
 class PutPaymentResponseData(Payment):
     pass
@@ -132,7 +133,6 @@ class DeletePaymentResponseData(Payment):
 class DeletePaymentResponse(BaseModel):
     message: str
     response: DeletePaymentResponseData
-
 
     class Config:
         from_attributes = True

@@ -3,6 +3,7 @@ from typing import List, Optional
 
 from pydantic import BaseModel
 
+
 class Journey(BaseModel):
     id: int
     user_id: int
@@ -40,8 +41,8 @@ class GetJourneysResponse(BaseModel):
 
 class GetJourneyResponse(Journey):
     pass
-    
-    
+
+
 class PostJourneyRequest(BaseModel):
     start: datetime
     end: datetime
@@ -56,7 +57,7 @@ class PostJourneyRequest(BaseModel):
         if isinstance(data, cls):
             data = data.model_dump()
         return cls(**data)
-    
+
 
 class PostJourneysRequest(BaseModel):
     journeys: List[PostJourneyRequest]
@@ -69,11 +70,11 @@ class PostJourneysRequest(BaseModel):
         if isinstance(data, cls):
             data = data.model_dump()
         return cls(**data)
-    
+
 
 class PostJourneyResponseData(Journey):
     pass
-    
+
 
 class PostJourneyResponse(BaseModel):
     message: str
@@ -82,6 +83,7 @@ class PostJourneyResponse(BaseModel):
 
 class PostJourneysResponseData(Journey):
     pass
+
 
 class PostJourneysResponseErrorData(BaseModel):
     error_message: str
@@ -108,7 +110,7 @@ class PutJourneyRequest(BaseModel):
         if isinstance(data, cls):
             data = data.model_dump()
         return cls(**data)
-    
+
 
 class PutJourneyResponseData(Journey):
     pass
@@ -135,7 +137,6 @@ class DeleteJourneyResponseData(Journey):
 class DeleteJourneyResponse(BaseModel):
     message: str
     response: DeleteJourneyResponseData
-
 
     class Config:
         from_attributes = True

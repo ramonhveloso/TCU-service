@@ -41,7 +41,7 @@ class GetHourlyRatesResponse(BaseModel):
 
 class GetHourlyRateResponse(HourlyRate):
     pass
-    
+
 
 class PostHourlyRateRequest(BaseModel):
     rate: float
@@ -56,7 +56,7 @@ class PostHourlyRateRequest(BaseModel):
         if isinstance(data, cls):
             data = data.model_dump()
         return cls(**data)
-    
+
 
 class PostHourlyRatesRequest(BaseModel):
     hourly_rates: List[PostHourlyRateRequest]
@@ -69,11 +69,11 @@ class PostHourlyRatesRequest(BaseModel):
         if isinstance(data, cls):
             data = data.model_dump()
         return cls(**data)
-    
+
 
 class PostHourlyRateResponseData(HourlyRate):
     pass
-    
+
 
 class PostHourlyRateResponse(BaseModel):
     message: str
@@ -82,6 +82,7 @@ class PostHourlyRateResponse(BaseModel):
 
 class PostHourlyRatesResponseData(HourlyRate):
     pass
+
 
 class PostHourlyRatesResponseErrorData(BaseModel):
     error_message: str
@@ -108,7 +109,7 @@ class PutHourlyRateRequest(BaseModel):
         if isinstance(data, cls):
             data = data.model_dump()
         return cls(**data)
-    
+
 
 class PutHourlyRateResponseData(HourlyRate):
     pass
@@ -135,7 +136,6 @@ class DeleteHourlyRateResponseData(HourlyRate):
 class DeleteHourlyRateResponse(BaseModel):
     message: str
     response: DeleteHourlyRateResponseData
-
 
     class Config:
         from_attributes = True

@@ -13,7 +13,7 @@ from app.api.v1.payments.payment_schemas import (
     PostPaymentsRequest,
     PostPaymentsResponse,
     PutPaymentRequest,
-    PutPaymentResponse
+    PutPaymentResponse,
 )
 from app.api.v1.payments.payment_service import PaymentService
 from app.middleware.dependencies import AuthUser, get_db, jwt_middleware
@@ -27,7 +27,9 @@ async def get_payments(
     AuthUser: Annotated[AuthUser, Security(jwt_middleware)],
     db: Session = Depends(get_db),
 ) -> GetPaymentsResponse:
-    response_service = await payment_service.get_all_payments(db=db, user_id=AuthUser.id)
+    response_service = await payment_service.get_all_payments(
+        db=db, user_id=AuthUser.id
+    )
     return GetPaymentsResponse.model_validate(response_service)
 
 
@@ -37,7 +39,9 @@ async def get_payment(
     payment_id: int,
     db: Session = Depends(get_db),
 ) -> GetPaymentResponse:
-    response_service = await payment_service.get_payment_by_id(db=db, user_id=AuthUser.id, payment_id=payment_id)
+    response_service = await payment_service.get_payment_by_id(
+        db=db, user_id=AuthUser.id, payment_id=payment_id
+    )
     return GetPaymentResponse.model_validate(response_service)
 
 
@@ -47,7 +51,9 @@ async def post_payment(
     payment: PostPaymentRequest = Depends(),
     db: Session = Depends(get_db),
 ) -> PostPaymentResponse:
-    response_service = await payment_service.post_payment(db=db, user_id=AuthUser.id, payment=payment)
+    response_service = await payment_service.post_payment(
+        db=db, user_id=AuthUser.id, payment=payment
+    )
     return PostPaymentResponse.model_validate(response_service)
 
 
@@ -57,7 +63,9 @@ async def post_payments(
     payments: PostPaymentsRequest = Depends(),
     db: Session = Depends(get_db),
 ) -> PostPaymentsResponse:
-    response_service = await payment_service.post_payments(db=db, user_id=AuthUser.id, payments=payments)
+    response_service = await payment_service.post_payments(
+        db=db, user_id=AuthUser.id, payments=payments
+    )
     return PostPaymentsResponse.model_validate(response_service)
 
 
@@ -68,7 +76,9 @@ async def put_payment(
     payment_id: int,
     db: Session = Depends(get_db),
 ) -> PutPaymentResponse:
-    response_service = await payment_service.update_payment(db=db, user_id=AuthUser.id, payment_id=payment_id, payment=payment)
+    response_service = await payment_service.update_payment(
+        db=db, user_id=AuthUser.id, payment_id=payment_id, payment=payment
+    )
     return PutPaymentResponse.model_validate(response_service)
 
 
@@ -78,5 +88,7 @@ async def delete_payment(
     payment_id: int,
     db: Session = Depends(get_db),
 ) -> DeletePaymentResponse:
-    response_service = await payment_service.delete_payment(db=db, user_id=AuthUser.id, payment_id=payment_id)
+    response_service = await payment_service.delete_payment(
+        db=db, user_id=AuthUser.id, payment_id=payment_id
+    )
     return DeletePaymentResponse.model_validate(response_service)

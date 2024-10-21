@@ -40,13 +40,12 @@ class GetExtraExpensesResponse(BaseModel):
 
 class GetExtraExpenseResponse(ExtraExpense):
     pass
-    
+
 
 class PostExtraExpenseRequest(BaseModel):
     amount: float
     description: str
     date: datetime
-    
 
     class Config:
         from_attributes = True
@@ -56,7 +55,7 @@ class PostExtraExpenseRequest(BaseModel):
         if isinstance(data, cls):
             data = data.model_dump()
         return cls(**data)
-    
+
 
 class PostExtraExpensesRequest(BaseModel):
     extra_expenses: List[PostExtraExpenseRequest]
@@ -69,11 +68,11 @@ class PostExtraExpensesRequest(BaseModel):
         if isinstance(data, cls):
             data = data.model_dump()
         return cls(**data)
-    
+
 
 class PostExtraExpenseResponseData(ExtraExpense):
     pass
-    
+
 
 class PostExtraExpenseResponse(BaseModel):
     message: str
@@ -108,7 +107,7 @@ class PutExtraExpenseRequest(BaseModel):
         if isinstance(data, cls):
             data = data.model_dump()
         return cls(**data)
-    
+
 
 class PutExtraExpenseResponseData(ExtraExpense):
     pass
@@ -135,7 +134,6 @@ class DeleteExtraExpenseResponseData(ExtraExpense):
 class DeleteExtraExpenseResponse(BaseModel):
     message: str
     response: DeleteExtraExpenseResponseData
-
 
     class Config:
         from_attributes = True

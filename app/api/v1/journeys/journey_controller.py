@@ -13,7 +13,7 @@ from app.api.v1.journeys.journey_schemas import (
     PostJourneysRequest,
     PostJourneysResponse,
     PutJourneyRequest,
-    PutJourneyResponse
+    PutJourneyResponse,
 )
 from app.api.v1.journeys.journey_service import JourneyService
 from app.middleware.dependencies import AuthUser, get_db, jwt_middleware
@@ -27,7 +27,9 @@ async def get_journeys(
     AuthUser: Annotated[AuthUser, Security(jwt_middleware)],
     db: Session = Depends(get_db),
 ) -> GetJourneysResponse:
-    response_service = await journey_service.get_all_journeys(db=db, user_id=AuthUser.id)
+    response_service = await journey_service.get_all_journeys(
+        db=db, user_id=AuthUser.id
+    )
     return GetJourneysResponse.model_validate(response_service)
 
 
@@ -37,7 +39,9 @@ async def get_journey(
     journey_id: int,
     db: Session = Depends(get_db),
 ) -> GetJourneyResponse:
-    response_service = await journey_service.get_journey_by_id(db=db, user_id=AuthUser.id, journey_id=journey_id)
+    response_service = await journey_service.get_journey_by_id(
+        db=db, user_id=AuthUser.id, journey_id=journey_id
+    )
     return GetJourneyResponse.model_validate(response_service)
 
 
@@ -47,7 +51,9 @@ async def post_journey(
     journey: PostJourneyRequest = Depends(),
     db: Session = Depends(get_db),
 ) -> PostJourneyResponse:
-    response_service = await journey_service.post_journey(db=db, user_id=AuthUser.id, journey=journey)
+    response_service = await journey_service.post_journey(
+        db=db, user_id=AuthUser.id, journey=journey
+    )
     return PostJourneyResponse.model_validate(response_service)
 
 
@@ -57,7 +63,9 @@ async def post_journeys(
     journeys: PostJourneysRequest = Depends(),
     db: Session = Depends(get_db),
 ) -> PostJourneysResponse:
-    response_service = await journey_service.post_journeys(db=db, user_id=AuthUser.id, journeys=journeys)
+    response_service = await journey_service.post_journeys(
+        db=db, user_id=AuthUser.id, journeys=journeys
+    )
     return PostJourneysResponse.model_validate(response_service)
 
 
@@ -68,7 +76,9 @@ async def put_journey(
     journey_id: int,
     db: Session = Depends(get_db),
 ) -> PutJourneyResponse:
-    response_service = await journey_service.update_journey(db=db, user_id=AuthUser.id, journey_id=journey_id, journey=journey)
+    response_service = await journey_service.update_journey(
+        db=db, user_id=AuthUser.id, journey_id=journey_id, journey=journey
+    )
     return PutJourneyResponse.model_validate(response_service)
 
 
@@ -78,5 +88,7 @@ async def delete_journey(
     journey_id: int,
     db: Session = Depends(get_db),
 ) -> DeleteJourneyResponse:
-    response_service = await journey_service.delete_journey(db=db, user_id=AuthUser.id, journey_id=journey_id)
+    response_service = await journey_service.delete_journey(
+        db=db, user_id=AuthUser.id, journey_id=journey_id
+    )
     return DeleteJourneyResponse.model_validate(response_service)
