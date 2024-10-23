@@ -13,7 +13,7 @@ services:
 
   db:
     image: postgres:14.10
-    container_name: automa_local
+    container_name: db_producao
     environment:
       POSTGRES_USER: admin
       POSTGRES_PASSWORD: postgre
@@ -23,5 +23,18 @@ services:
     volumes:
       - postgres_data:/var/lib/postgresql/data
 
+  db_tests:
+    image: postgres:14.10
+    container_name: db_producao_tests
+    environment:
+      POSTGRES_USER: admin
+      POSTGRES_PASSWORD: postgre
+      POSTGRES_DB: tests
+    ports:
+      - "5433:5432"
+    volumes:
+      - postgres_data_tests:/var/lib/postgresql/data
+
 volumes:
   postgres_data:
+  postgres_data_tests:

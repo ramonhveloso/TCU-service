@@ -6,7 +6,7 @@ authors = ["ramonhveloso <ramon.veloso@inovebanco.com.br>"]
 readme = "README.md"
 
 [tool.poetry.dependencies]
-python = "^3.11"
+python = "^3.12"
 fastapi = "^0.115.0"
 uvicorn = "^0.30.6"
 sqlalchemy = "^2.0.35"
