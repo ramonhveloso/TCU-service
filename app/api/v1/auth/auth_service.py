@@ -159,6 +159,8 @@ class AuthService:
             cpf=user.cpf,
             cnpj=user.cnpj,
             chave_pix=user.chave_pix,
+            is_superuser=user.is_superuser,
+            is_active=user.is_active,
         )
 
     def verify_token(self, token: str):

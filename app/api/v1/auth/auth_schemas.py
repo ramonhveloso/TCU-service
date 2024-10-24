@@ -156,6 +156,8 @@ class GetAuthMeResponse(BaseModel):
     username: str
     email: EmailStr
     name: str
+    is_superuser: bool
+    is_active: bool
     cpf: Optional[str] = None
     cnpj: Optional[str] = None
     chave_pix: Optional[str] = None
