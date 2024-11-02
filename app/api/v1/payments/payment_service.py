@@ -40,8 +40,8 @@ class PaymentService:
         payments = await self.payment_repository.get_all_payments(
             user_id=user_id, db=db
         )
-        if not payments:
-            raise HTTPException(status_code=404, detail="Payments not found")
+        # if not payments:
+        #     raise HTTPException(status_code=404, detail="Payments not found")
         payments_list = [
             Payment(
                 id=payment.id,

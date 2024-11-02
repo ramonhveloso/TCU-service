@@ -27,7 +27,7 @@ class HourlyRate(BaseModel):
 
 
 class GetHourlyRatesResponse(BaseModel):
-    hourly_rates: List[HourlyRate]
+    hourly_rates: Optional[List[HourlyRate]] = []
 
     class Config:
         from_attributes = True

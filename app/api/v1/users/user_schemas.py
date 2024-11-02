@@ -67,7 +67,7 @@ class User(BaseModel):
 
 
 class GetUsersResponse(BaseModel):
-    users: List[User]
+    users: Optional[List[User]] = []
 
     class Config:
         from_attributes = True

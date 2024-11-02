@@ -43,8 +43,8 @@ class ExtraExpenseService:
         extra_expenses = await self.extra_expense_repository.get_all_extra_expenses(
             user_id=user_id, db=db
         )
-        if not extra_expenses:
-            raise HTTPException(status_code=404, detail="Extra expenses not found")
+        # if not extra_expenses:
+        #     raise HTTPException(status_code=404, detail="Extra expenses not found")
         extra_expenses_list = [
             ExtraExpense(
                 id=extra_expense.id,

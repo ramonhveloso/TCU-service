@@ -25,7 +25,7 @@ class Payment(BaseModel):
 
 
 class GetPaymentsResponse(BaseModel):
-    payments: List[Payment]
+    payments: Optional[List[Payment]] = []
 
     class Config:
         from_attributes = True

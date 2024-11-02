@@ -44,8 +44,8 @@ class HourlyRateService:
         hourly_rates = await self.hourly_rate_repository.get_all_hourly_rates(
             user_id=user_id, db=db
         )
-        if not hourly_rates:
-            raise HTTPException(status_code=404, detail="Hourly rates not found")
+        # if not hourly_rates:
+        #     raise HTTPException(status_code=404, detail="Hourly rates not found")
         hourly_rates_list = [
             HourlyRate(
                 id=hourly_rate.id,

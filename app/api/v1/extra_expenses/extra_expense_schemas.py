@@ -26,7 +26,7 @@ class ExtraExpense(BaseModel):
 
 
 class GetExtraExpensesResponse(BaseModel):
-    extra_expenses: List[ExtraExpense]
+    extra_expenses: Optional[List[ExtraExpense]] = []
 
     class Config:
         from_attributes = True
