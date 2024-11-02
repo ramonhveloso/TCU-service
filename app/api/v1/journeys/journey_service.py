@@ -43,8 +43,8 @@ class JourneyService:
         journeys = await self.journey_repository.get_all_journeys(
             user_id=user_id, db=db
         )
-        if not journeys:
-            raise HTTPException(status_code=404, detail="Journeys not found")
+        # if not journeys:
+        #     raise HTTPException(status_code=404, detail="Journeys not found")
         journeys_list = [
             Journey(
                 id=journey.id,

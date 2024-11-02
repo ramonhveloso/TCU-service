@@ -27,7 +27,7 @@ class Journey(BaseModel):
 
 
 class GetJourneysResponse(BaseModel):
-    journeys: List[Journey]
+    journeys: Optional[List[Journey]] = []
 
     class Config:
         from_attributes = True
