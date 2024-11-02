@@ -19,6 +19,8 @@ class AuthRepository:
             email=data.email,
             cpf=data.cpf,
             cnpj=data.cnpj,
+            telefone=data.telefone,
+            endereco=data.endereco,
             chave_pix=data.chave_pix,
             is_active=True,
         )

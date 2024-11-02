@@ -43,6 +43,8 @@ class AuthService:
             name=response_repository.name,
             cpf=response_repository.cpf,
             cnpj=response_repository.cnpj,
+            telefone=response_repository.telefone,
+            endereco=response_repository.endereco,
             chave_pix=response_repository.chave_pix,
         )
 
@@ -158,6 +160,8 @@ class AuthService:
             name=user.name,
             cpf=user.cpf,
             cnpj=user.cnpj,
+            telefone=user.telefone,
+            endereco=user.endereco,
             chave_pix=user.chave_pix,
             is_superuser=user.is_superuser,
             is_active=user.is_active,

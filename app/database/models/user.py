@@ -17,6 +17,8 @@ class User(Base):
     email = Column(String, unique=True, index=True)
     cpf = Column(String, unique=True, index=True)
     cnpj = Column(String, unique=True, index=True, nullable=True)
+    endereco = Column(String, unique=True, index=True, nullable=True)
+    telefone = Column(String, unique=True, index=True, nullable=True)
     chave_pix = Column(String, unique=True, index=True, nullable=True)
     is_active = Column(Boolean, default=True)
     is_superuser = Column(Boolean, default=False)

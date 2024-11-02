@@ -6,8 +6,14 @@ from pydantic import BaseModel, EmailStr
 # Obter perfil do usuário autenticado
 class GetUsersMeResponse(BaseModel):
     id: int
+    username: Optional[str]
     email: EmailStr
     name: str
+    cpf: Optional[int] = None
+    cnpj: Optional[int] = None
+    telefone: Optional[str] = None
+    endereco: Optional[str] = None
+    chave_pix: Optional[str] = None
 
     class Config:
         from_attributes = True
@@ -21,8 +27,14 @@ class GetUsersMeResponse(BaseModel):
 
 # Atualizar perfil do usuário autenticado
 class PutUsersMeRequest(BaseModel):
-    name: Optional[str]
-    email: Optional[EmailStr]
+    username: Optional[str] = None
+    name: Optional[str] = None
+    email: Optional[EmailStr] = None
+    cpf: Optional[int] = None
+    cnpj: Optional[int] = None
+    telefone: Optional[str] = None
+    endereco: Optional[str] = None
+    chave_pix: Optional[str] = None
 
     class Config:
         from_attributes = True
@@ -35,9 +47,15 @@ class PutUsersMeRequest(BaseModel):
 
 
 class PutUsersMeResponse(BaseModel):
-    id: int
-    email: EmailStr
-    name: str
+    id: Optional[int] = None
+    email: Optional[EmailStr] = None
+    name: Optional[str] = None
+    username: Optional[str] = None
+    cpf: Optional[int] = None
+    cnpj: Optional[int] = None
+    telefone: Optional[str] = None
+    endereco: Optional[str] = None
+    chave_pix: Optional[str] = None
 
     class Config:
         from_attributes = True
@@ -49,11 +67,16 @@ class PutUsersMeResponse(BaseModel):
         return cls(**data)
 
 
-# (Admin) Listar usuários
 class User(BaseModel):
     id: int
+    username: str
     email: EmailStr
     name: str
+    cpf: Optional[int] = None
+    cnpj: Optional[int] = None
+    telefone: Optional[str] = None
+    endereco: Optional[str] = None
+    chave_pix: Optional[str] = None
     is_active: bool
 
     class Config:
@@ -82,8 +105,14 @@ class GetUsersResponse(BaseModel):
 # Ver perfil de um usuário específico
 class GetUserResponse(BaseModel):
     id: int
+    username: str
     email: EmailStr
     name: str
+    cpf: Optional[int] = None
+    cnpj: Optional[int] = None
+    telefone: Optional[str] = None
+    endereco: Optional[str] = None
+    chave_pix: Optional[str] = None
 
     class Config:
         from_attributes = True
@@ -99,6 +128,12 @@ class GetUserResponse(BaseModel):
 class PutUserRequest(BaseModel):
     name: Optional[str]
     email: Optional[EmailStr]
+    username: Optional[str]
+    cpf: Optional[int] = None
+    cnpj: Optional[int] = None
+    telefone: Optional[str] = None
+    endereco: Optional[str] = None
+    chave_pix: Optional[str] = None
 
     class Config:
         from_attributes = True
@@ -114,6 +149,12 @@ class PutUserResponse(BaseModel):
     id: int
     email: EmailStr
     name: str
+    username: Optional[str] = None
+    cpf: Optional[int] = None
+    cnpj: Optional[int] = None
+    telefone: Optional[str] = None
+    endereco: Optional[str] = None
+    chave_pix: Optional[str] = None
 
     class Config:
         from_attributes = True
@@ -130,6 +171,12 @@ class DeleteUserResponse(BaseModel):
     id: int
     email: EmailStr
     name: str
+    username: Optional[str] = None
+    cpf: Optional[int] = None
+    cnpj: Optional[int] = None
+    telefone: Optional[str] = None
+    endereco: Optional[str] = None
+    chave_pix: Optional[str] = None
 
     class Config:
         from_attributes = True

@@ -17,8 +17,15 @@ class UserRepository:
         self, db: Session, user: User, data: PutUsersMeRequest
     ):
         """Atualiza o perfil do usuário autenticado."""
+        user.username = data.username if data.username else user.username  # type: ignore
         user.name = data.name if data.name else user.name  # type: ignore
         user.email = data.email if data.email else user.email  # type: ignore
+        user.cpf = data.cpf if data.cpf else user.cpf  # type: ignore
+        user.cnpj = data.cnpj if data.cnpj else user.cnpj  # type: ignore
+        user.telefone = data.telefone if data.telefone else user.telefone  # type: ignore
+        user.endereco = data.endereco if data.endereco else user.endereco  # type: ignore
+        user.chave_pix = data.chave_pix if data.chave_pix else user.chave_pix  # type: ignore
+
         db.commit()
         db.refresh(user)
         return user

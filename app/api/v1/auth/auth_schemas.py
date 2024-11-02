@@ -21,8 +21,10 @@ class PostSignUpRequest(BaseModel):
     email: EmailStr
     password: str
     name: str
-    cpf: Optional[str] = None
-    cnpj: Optional[str] = None
+    cpf: Optional[int] = None
+    cnpj: Optional[int] = None
+    telefone: Optional[str] = None
+    endereco: Optional[str] = None
     chave_pix: Optional[str] = None
 
     class Config:
@@ -39,8 +41,10 @@ class PostSignUpResponse(BaseModel):
     username: str
     email: EmailStr
     name: str
-    cpf: Optional[str] = None
-    cnpj: Optional[str] = None
+    cpf: Optional[int] = None
+    cnpj: Optional[int] = None
+    telefone: Optional[str] = None
+    endereco: Optional[str] = None
     chave_pix: Optional[str] = None
 
     class Config:
@@ -158,8 +162,10 @@ class GetAuthMeResponse(BaseModel):
     name: str
     is_superuser: bool
     is_active: bool
-    cpf: Optional[str] = None
-    cnpj: Optional[str] = None
+    cpf: Optional[int] = None
+    cnpj: Optional[int] = None
+    telefone: Optional[str] = None
+    endereco: Optional[str] = None
     chave_pix: Optional[str] = None
 
     class Config:

@@ -28,8 +28,14 @@ class UserService:
             raise HTTPException(status_code=404, detail="User not found")
         return GetUsersMeResponse(
             id=int(user.id),
+            username=str(user.username),
             email=str(user.email),
             name=str(user.name),
+            cpf=int(user.cpf) if user.cpf else None,
+            cnpj=int(user.cnpj) if user.cnpj else None,
+            telefone=str(user.telefone) if user.telefone else None,
+            endereco=str(user.endereco) if user.endereco else None,
+            chave_pix=str(user.chave_pix) if user.chave_pix else None,
         )
 
     async def update_user_profile(
@@ -39,18 +45,34 @@ class UserService:
         if not user:
             raise HTTPException(status_code=404, detail="User not found")
 
-        # Atualizar o perfil do usuário
         updated_user = await self.user_repository.update_user_profile(db, user, data)
         return PutUsersMeResponse(
             id=updated_user.id,
+            username=updated_user.username,
             email=updated_user.email,
             name=updated_user.name,
+            cpf=int(user.cpf) if user.cpf else None,
+            cnpj=int(user.cnpj) if user.cnpj else None,
+            telefone=str(user.telefone) if user.telefone else None,
+            endereco=str(user.endereco) if user.endereco else None,
+            chave_pix=str(user.chave_pix) if user.chave_pix else None,
         )
 
     async def get_all_users(self, db: Session) -> GetUsersResponse:
         users = await self.user_repository.get_all_users(db)
         users_list = [
-            User(id=user.id, email=user.email, name=user.name, is_active=user.is_active)
+            User(
+                id=user.id,
+                email=user.email,
+                name=user.name,
+                username=user.username,
+                cpf=int(user.cpf) if user.cpf else None,
+                cnpj=int(user.cnpj) if user.cnpj else None,
+                telefone=str(user.telefone) if user.telefone else None,
+                endereco=str(user.endereco) if user.endereco else None,
+                chave_pix=str(user.chave_pix) if user.chave_pix else None,
+                is_active=user.is_active,
+            )
             for user in users
         ]
         return GetUsersResponse(users=users_list)
@@ -59,7 +81,17 @@ class UserService:
         user = await self.user_repository.get_user_by_id(db, user_id)
         if not user:
             raise HTTPException(status_code=404, detail="User not found")
-        return GetUserResponse(id=user.id, email=user.email, name=user.name)
+        return GetUserResponse(
+            id=user.id,
+            username=user.username,
+            email=user.email,
+            name=user.name,
+            cpf=int(user.cpf) if user.cpf else None,
+            cnpj=int(user.cnpj) if user.cnpj else None,
+            telefone=str(user.telefone) if user.telefone else None,
+            endereco=str(user.endereco) if user.endereco else None,
+            chave_pix=str(user.chave_pix) if user.chave_pix else None,
+        )
 
     async def update_user(
         self, db: Session, user_id: int, data: PutUserRequest
@@ -68,12 +100,17 @@ class UserService:
         if not user:
             raise HTTPException(status_code=404, detail="User not found")
 
-        # Atualizar dados do usuário
         updated_user = await self.user_repository.update_user(db, user, data)
         return PutUserResponse(
             id=updated_user.id,
             email=updated_user.email,
             name=updated_user.name,
+            username=updated_user.username,
+            cpf=int(user.cpf) if user.cpf else None,
+            cnpj=int(user.cnpj) if user.cnpj else None,
+            telefone=str(user.telefone) if user.telefone else None,
+            endereco=str(user.endereco) if user.endereco else None,
+            chave_pix=str(user.chave_pix) if user.chave_pix else None,
         )
 
     async def delete_user(self, db: Session, user_id: int) -> DeleteUserResponse:
@@ -81,10 +118,15 @@ class UserService:
         if not user:
             raise HTTPException(status_code=404, detail="User not found")
 
-        # Excluir usuário
         deleted_user = await self.user_repository.delete_user(db, user)
         return DeleteUserResponse(
             id=deleted_user.id,
             email=deleted_user.email,
             name=deleted_user.name,
+            username=deleted_user.username,
+            cpf=int(user.cpf) if user.cpf else None,
+            cnpj=int(user.cnpj) if user.cnpj else None,
+            telefone=str(user.telefone) if user.telefone else None,
+            endereco=str(user.endereco) if user.endereco else None,
+            chave_pix=str(user.chave_pix) if user.chave_pix else None,
         )
