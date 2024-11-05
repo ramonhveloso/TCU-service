@@ -57,6 +57,7 @@ class ExtraExpenseRepository:
         existing_extra_expense.amount = extra_expense.amount if extra_expense.amount else existing_extra_expense.amount  # type: ignore
         existing_extra_expense.description = extra_expense.description if extra_expense.description else existing_extra_expense.description  # type: ignore
         existing_extra_expense.date = extra_expense.date if extra_expense.date else existing_extra_expense.date  # type: ignore
+        existing_extra_expense.status = extra_expense.status if extra_expense.status else existing_extra_expense.status  # type: ignore
         existing_extra_expense.last_modified = datetime.now()  # type: ignore
 
         db.commit()

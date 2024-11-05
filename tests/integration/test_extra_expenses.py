@@ -136,6 +136,7 @@ async def test_put_by_id_extra_expenses(use_test_client):
     json_request = {
         "amount": 150.00,
         "description": "atualizado",
+        "status": "approved",
         "date": str(datetime.now()),
     }
 

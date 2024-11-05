@@ -9,8 +9,8 @@ class GetUsersMeResponse(BaseModel):
     username: Optional[str]
     email: EmailStr
     name: str
-    cpf: Optional[int] = None
-    cnpj: Optional[int] = None
+    cpf: Optional[str] = None
+    cnpj: Optional[str] = None
     telefone: Optional[str] = None
     endereco: Optional[str] = None
     chave_pix: Optional[str] = None
@@ -30,8 +30,8 @@ class PutUsersMeRequest(BaseModel):
     username: Optional[str] = None
     name: Optional[str] = None
     email: Optional[EmailStr] = None
-    cpf: Optional[int] = None
-    cnpj: Optional[int] = None
+    cpf: Optional[str] = None
+    cnpj: Optional[str] = None
     telefone: Optional[str] = None
     endereco: Optional[str] = None
     chave_pix: Optional[str] = None
@@ -51,8 +51,8 @@ class PutUsersMeResponse(BaseModel):
     email: Optional[EmailStr] = None
     name: Optional[str] = None
     username: Optional[str] = None
-    cpf: Optional[int] = None
-    cnpj: Optional[int] = None
+    cpf: Optional[str] = None
+    cnpj: Optional[str] = None
     telefone: Optional[str] = None
     endereco: Optional[str] = None
     chave_pix: Optional[str] = None
@@ -72,8 +72,8 @@ class User(BaseModel):
     username: str
     email: EmailStr
     name: str
-    cpf: Optional[int] = None
-    cnpj: Optional[int] = None
+    cpf: Optional[str] = None
+    cnpj: Optional[str] = None
     telefone: Optional[str] = None
     endereco: Optional[str] = None
     chave_pix: Optional[str] = None
@@ -108,8 +108,8 @@ class GetUserResponse(BaseModel):
     username: str
     email: EmailStr
     name: str
-    cpf: Optional[int] = None
-    cnpj: Optional[int] = None
+    cpf: Optional[str] = None
+    cnpj: Optional[str] = None
     telefone: Optional[str] = None
     endereco: Optional[str] = None
     chave_pix: Optional[str] = None
@@ -129,8 +129,8 @@ class PutUserRequest(BaseModel):
     name: Optional[str]
     email: Optional[EmailStr]
     username: Optional[str]
-    cpf: Optional[int] = None
-    cnpj: Optional[int] = None
+    cpf: Optional[str] = None
+    cnpj: Optional[str] = None
     telefone: Optional[str] = None
     endereco: Optional[str] = None
     chave_pix: Optional[str] = None
@@ -150,8 +150,8 @@ class PutUserResponse(BaseModel):
     email: EmailStr
     name: str
     username: Optional[str] = None
-    cpf: Optional[int] = None
-    cnpj: Optional[int] = None
+    cpf: Optional[str] = None
+    cnpj: Optional[str] = None
     telefone: Optional[str] = None
     endereco: Optional[str] = None
     chave_pix: Optional[str] = None
@@ -172,8 +172,8 @@ class DeleteUserResponse(BaseModel):
     email: EmailStr
     name: str
     username: Optional[str] = None
-    cpf: Optional[int] = None
-    cnpj: Optional[int] = None
+    cpf: Optional[str] = None
+    cnpj: Optional[str] = None
     telefone: Optional[str] = None
     endereco: Optional[str] = None
     chave_pix: Optional[str] = None

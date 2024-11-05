@@ -98,6 +98,7 @@ class PutExtraExpenseRequest(BaseModel):
     amount: Optional[float] = None
     description: Optional[str] = None
     date: Optional[datetime] = None
+    status: Optional[str] = None
 
     class Config:
         from_attributes = True
