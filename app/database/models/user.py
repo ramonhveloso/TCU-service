@@ -4,6 +4,7 @@ from sqlalchemy.orm import relationship
 from app.database.base import Base
 from app.database.models.extra_expense import ExtraExpense
 from app.database.models.hourly_rate import HourlyRate
+from app.database.models.improvement import Improvement
 from app.database.models.journey import Journey
 from app.database.models.payment import Payment
 
@@ -31,3 +32,4 @@ class User(Base):
     payments = relationship(Payment, back_populates="user")
     hourly_rates = relationship(HourlyRate, back_populates="user")
     extra_expenses = relationship(ExtraExpense, back_populates="user")
+    improvements = relationship(Improvement, back_populates="user")
