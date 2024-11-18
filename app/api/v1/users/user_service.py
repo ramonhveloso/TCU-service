@@ -66,6 +66,7 @@ class UserService:
                 email=user.email,
                 name=user.name,
                 username=user.username,
+                is_superuser=user.is_superuser,
                 cpf=str(user.cpf) if user.cpf else None,
                 cnpj=str(user.cnpj) if user.cnpj else None,
                 telefone=str(user.telefone) if user.telefone else None,

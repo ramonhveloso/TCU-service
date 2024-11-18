@@ -33,6 +33,18 @@ async def get_hourly_rates(
     return GetHourlyRatesResponse.model_validate(response_service)
 
 
+@router.get("/by_user/{user_id}")
+async def get_hourly_rates_by_user(
+    AuthUser: Annotated[AuthUser, Security(jwt_middleware)],
+    user_id: int,
+    db: Session = Depends(get_db),
+) -> GetHourlyRatesResponse:
+    response_service = await hourly_rate_service.get_all_hourly_rates(
+        db=db, user_id=user_id
+    )
+    return GetHourlyRatesResponse.model_validate(response_service)
+
+
 @router.get("/{hourly_rate_id}")
 async def get_hourly_rate(
     AuthUser: Annotated[AuthUser, Security(jwt_middleware)],

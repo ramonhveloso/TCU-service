@@ -33,6 +33,18 @@ async def get_extra_expenses(
     return GetExtraExpensesResponse.model_validate(response_service)
 
 
+@router.get("/by_user/{user_id}")
+async def get_extra_expenses_by_user(
+    AuthUser: Annotated[AuthUser, Security(jwt_middleware)],
+    user_id: int,
+    db: Session = Depends(get_db),
+) -> GetExtraExpensesResponse:
+    response_service = await extra_expense_service.get_all_extra_expenses(
+        db=db, user_id=user_id
+    )
+    return GetExtraExpensesResponse.model_validate(response_service)
+
+
 @router.get("/{extra_expense_id}")
 async def get_extra_expense(
     AuthUser: Annotated[AuthUser, Security(jwt_middleware)],

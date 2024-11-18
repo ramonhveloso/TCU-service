@@ -30,6 +30,7 @@ class PutUsersMeRequest(BaseModel):
     username: Optional[str] = None
     name: Optional[str] = None
     email: Optional[EmailStr] = None
+    is_active: Optional[bool] = None
     cpf: Optional[str] = None
     cnpj: Optional[str] = None
     telefone: Optional[str] = None
@@ -72,6 +73,7 @@ class User(BaseModel):
     username: str
     email: EmailStr
     name: str
+    is_superuser: bool
     cpf: Optional[str] = None
     cnpj: Optional[str] = None
     telefone: Optional[str] = None
@@ -129,6 +131,7 @@ class PutUserRequest(BaseModel):
     name: Optional[str]
     email: Optional[EmailStr]
     username: Optional[str]
+    is_active: Optional[bool] = None
     cpf: Optional[str] = None
     cnpj: Optional[str] = None
     telefone: Optional[str] = None

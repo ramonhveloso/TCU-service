@@ -33,6 +33,16 @@ async def get_payments(
     return GetPaymentsResponse.model_validate(response_service)
 
 
+@router.get("/by_user/{user_id}")
+async def get_payments_by_users(
+    AuthUser: Annotated[AuthUser, Security(jwt_middleware)],
+    user_id: int,
+    db: Session = Depends(get_db),
+) -> GetPaymentsResponse:
+    response_service = await payment_service.get_all_payments(db=db, user_id=user_id)
+    return GetPaymentsResponse.model_validate(response_service)
+
+
 @router.get("/{payment_id}")
 async def get_payment(
     AuthUser: Annotated[AuthUser, Security(jwt_middleware)],

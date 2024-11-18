@@ -33,6 +33,16 @@ async def get_journeys(
     return GetJourneysResponse.model_validate(response_service)
 
 
+@router.get("/by_user/{user_id}")
+async def get_journeys_by_user(
+    AuthUser: Annotated[AuthUser, Security(jwt_middleware)],
+    user_id: int,
+    db: Session = Depends(get_db),
+) -> GetJourneysResponse:
+    response_service = await journey_service.get_all_journeys(db=db, user_id=user_id)
+    return GetJourneysResponse.model_validate(response_service)
+
+
 @router.get("/{journey_id}")
 async def get_journey(
     AuthUser: Annotated[AuthUser, Security(jwt_middleware)],
