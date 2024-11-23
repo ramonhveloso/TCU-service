@@ -8,20 +8,18 @@ services:
       - .env
     ports:
       - "8007:8007"
-    depends_on:
-      - db
 
-  db:
-    image: postgres:14.10
-    container_name: db_producao
-    environment:
-      POSTGRES_USER: admin
-      POSTGRES_PASSWORD: postgre
-      POSTGRES_DB: desenvolvimento
-    ports:
-      - "5432:5432"
-    volumes:
-      - postgres_data:/var/lib/postgresql/data
+  #db:
+  #  image: postgres:14.10
+  #  container_name: db_producao
+  #  environment:
+  #    POSTGRES_USER: admin
+  #    POSTGRES_PASSWORD: postgre
+  #    POSTGRES_DB: desenvolvimento
+  #  ports:
+  #    - "5432:5432"
+  #  volumes:
+  #    - postgres_data:/var/lib/postgresql/data
 
   db_tests:
     image: postgres:14.10
@@ -36,5 +34,5 @@ services:
       - postgres_data_tests:/var/lib/postgresql/data
 
 volumes:
-  postgres_data:
+  #postgres_data:
   postgres_data_tests:
