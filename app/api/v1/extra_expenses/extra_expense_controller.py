@@ -40,7 +40,7 @@ async def get_extra_expenses_by_user(
     db: Session = Depends(get_db),
 ) -> GetExtraExpensesResponse:
     response_service = await extra_expense_service.get_all_extra_expenses(
-        db=db, user_id=user_id
+        db=db, user_id=user_id, authuser=AuthUser.id
     )
     return GetExtraExpensesResponse.model_validate(response_service)
 
