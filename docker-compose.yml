@@ -4,6 +4,7 @@ services:
       context: .
       dockerfile: Dockerfile
     container_name: erp-automa-back-end
+    restart: always
     env_file: 
       - .env
     ports:

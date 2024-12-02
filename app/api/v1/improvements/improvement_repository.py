@@ -2,7 +2,10 @@ from datetime import datetime
 
 from sqlalchemy.orm import Session
 
-from app.api.v1.improvements.improvement_schemas import PostImprovementRequest, PutImprovementRequest
+from app.api.v1.improvements.improvement_schemas import (
+    PostImprovementRequest,
+    PutImprovementRequest,
+)
 from app.database.models.improvement import Improvement
 
 
@@ -14,7 +17,9 @@ class ImprovementRepository:
             .all()
         )
 
-    async def get_improvement_by_id(self, db: Session, user_id: int, improvement_id: int):
+    async def get_improvement_by_id(
+        self, db: Session, user_id: int, improvement_id: int
+    ):
         return (
             db.query(Improvement)
             .filter(
@@ -41,7 +46,10 @@ class ImprovementRepository:
         return improvement
 
     async def update_improvement(
-        self, db: Session, existing_improvement: Improvement, improvement: PutImprovementRequest
+        self,
+        db: Session,
+        existing_improvement: Improvement,
+        improvement: PutImprovementRequest,
     ):
         existing_improvement.description = (
             improvement.description if improvement.description else existing_improvement.description  # type: ignore

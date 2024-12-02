@@ -35,7 +35,9 @@ class ImprovementService:
             last_modified=response_repository.last_modified,
         )
 
-    async def get_all_improvements(self, db: Session, user_id: int) -> GetImprovementsResponse:
+    async def get_all_improvements(
+        self, db: Session, user_id: int
+    ) -> GetImprovementsResponse:
         improvements = await self.improvement_repository.get_all_improvements(
             user_id=user_id, db=db
         )
@@ -100,8 +102,10 @@ class ImprovementService:
 
         for improvement in improvements.improvements:
             try:
-                response_repository = await self.improvement_repository.post_improvement(
-                    db=db, user_id=user_id, improvement=improvement
+                response_repository = (
+                    await self.improvement_repository.post_improvement(
+                        db=db, user_id=user_id, improvement=improvement
+                    )
                 )
                 list_improvements.append(self._build_response_data(response_repository))
 
@@ -124,7 +128,11 @@ class ImprovementService:
         )
 
     async def update_improvement(
-        self, db: Session, user_id: int, improvement_id: int, improvement: PutImprovementRequest
+        self,
+        db: Session,
+        user_id: int,
+        improvement_id: int,
+        improvement: PutImprovementRequest,
     ) -> PutImprovementResponse:
         existing_improvement = await self.improvement_repository.get_improvement_by_id(
             db=db, user_id=user_id, improvement_id=improvement_id
@@ -156,7 +164,9 @@ class ImprovementService:
         if not improvement:
             raise HTTPException(status_code=404, detail="Improvement not found")
 
-        deleted_improvement = await self.improvement_repository.delete_improvement(db, improvement)
+        deleted_improvement = await self.improvement_repository.delete_improvement(
+            db, improvement
+        )
         return DeleteImprovementResponse(
             message="Improvement deleted successfully",
             response=DeleteImprovementResponseData(

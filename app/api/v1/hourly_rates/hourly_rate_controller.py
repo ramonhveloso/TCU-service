@@ -16,10 +16,13 @@ from app.api.v1.hourly_rates.hourly_rate_schemas import (
     PutHourlyRateResponse,
 )
 from app.api.v1.hourly_rates.hourly_rate_service import HourlyRateService
+from app.api.v1.users.user_repository import UserRepository
+from app.api.v1.users.user_service import UserService
 from app.middleware.dependencies import AuthUser, get_db, jwt_middleware
 
 router = APIRouter()
 hourly_rate_service = HourlyRateService(HourlyRateRepository())
+user_service = UserService(UserRepository())
 
 
 @router.get("/")
@@ -39,6 +42,7 @@ async def get_hourly_rates_by_user(
     user_id: int,
     db: Session = Depends(get_db),
 ) -> GetHourlyRatesResponse:
+    await user_service.verify_is_superuser(db=db, user_id=AuthUser.id)
     response_service = await hourly_rate_service.get_all_hourly_rates(
         db=db, user_id=user_id
     )

@@ -16,10 +16,13 @@ from app.api.v1.payments.payment_schemas import (
     PutPaymentResponse,
 )
 from app.api.v1.payments.payment_service import PaymentService
+from app.api.v1.users.user_repository import UserRepository
+from app.api.v1.users.user_service import UserService
 from app.middleware.dependencies import AuthUser, get_db, jwt_middleware
 
 router = APIRouter()
 payment_service = PaymentService(PaymentRepository())
+user_service = UserService(UserRepository())
 
 
 @router.get("/")
@@ -39,6 +42,7 @@ async def get_payments_by_users(
     user_id: int,
     db: Session = Depends(get_db),
 ) -> GetPaymentsResponse:
+    await user_service.verify_is_superuser(db=db, user_id=AuthUser.id)
     response_service = await payment_service.get_all_payments(db=db, user_id=user_id)
     return GetPaymentsResponse.model_validate(response_service)
 

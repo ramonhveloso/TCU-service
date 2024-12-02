@@ -16,10 +16,13 @@ from app.api.v1.extra_expenses.extra_expense_schemas import (
     PutExtraExpenseResponse,
 )
 from app.api.v1.extra_expenses.extra_expense_service import ExtraExpenseService
+from app.api.v1.users.user_repository import UserRepository
+from app.api.v1.users.user_service import UserService
 from app.middleware.dependencies import AuthUser, get_db, jwt_middleware
 
 router = APIRouter()
 extra_expense_service = ExtraExpenseService(ExtraExpenseRepository())
+user_service = UserService(UserRepository())
 
 
 @router.get("/")
@@ -39,8 +42,9 @@ async def get_extra_expenses_by_user(
     user_id: int,
     db: Session = Depends(get_db),
 ) -> GetExtraExpensesResponse:
+    await user_service.verify_is_superuser(db=db, user_id=AuthUser.id)
     response_service = await extra_expense_service.get_all_extra_expenses(
-        db=db, user_id=user_id, authuser=AuthUser.id
+        db=db, user_id=user_id
     )
     return GetExtraExpensesResponse.model_validate(response_service)
 

@@ -16,10 +16,13 @@ from app.api.v1.journeys.journey_schemas import (
     PutJourneyResponse,
 )
 from app.api.v1.journeys.journey_service import JourneyService
+from app.api.v1.users.user_repository import UserRepository
+from app.api.v1.users.user_service import UserService
 from app.middleware.dependencies import AuthUser, get_db, jwt_middleware
 
 router = APIRouter()
 journey_service = JourneyService(JourneyRepository())
+user_service = UserService(UserRepository())
 
 
 @router.get("/")
@@ -39,6 +42,7 @@ async def get_journeys_by_user(
     user_id: int,
     db: Session = Depends(get_db),
 ) -> GetJourneysResponse:
+    await user_service.verify_is_superuser(db=db, user_id=AuthUser.id)
     response_service = await journey_service.get_all_journeys(db=db, user_id=user_id)
     return GetJourneysResponse.model_validate(response_service)
 

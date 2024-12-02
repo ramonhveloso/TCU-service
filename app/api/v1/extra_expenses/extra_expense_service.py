@@ -1,5 +1,3 @@
-from app.api.v1.users.user_repository import UserRepository
-from app.middleware.dependencies import AuthUser
 from fastapi import Depends, HTTPException
 from sqlalchemy.orm import Session
 
@@ -20,10 +18,15 @@ from app.api.v1.extra_expenses.extra_expense_schemas import (
     PutExtraExpenseResponse,
     PutExtraExpenseResponseData,
 )
+from app.api.v1.users.user_repository import UserRepository
 
 
 class ExtraExpenseService:
-    def __init__(self, extra_expense_repository: ExtraExpenseRepository = Depends(), user_repository: UserRepository = Depends()):
+    def __init__(
+        self,
+        extra_expense_repository: ExtraExpenseRepository = Depends(),
+        user_repository: UserRepository = Depends(),
+    ):
         self.extra_expense_repository = extra_expense_repository
         self.user_repository = user_repository
 
@@ -41,15 +44,8 @@ class ExtraExpenseService:
         )
 
     async def get_all_extra_expenses(
-        self, db: Session, user_id: int, authuser: AuthUser
+        self, db: Session, user_id: int
     ) -> GetExtraExpensesResponse:
-        user = await self.user_repository.get_user_by_id(db, authuser.id)
-        if not user:
-            raise HTTPException(status_code=404, detail="User not found")
-        
-        if not user.is_superuser:
-            raise HTTPException(status_code=403, detail="Permission denied")
-        
         extra_expenses = await self.extra_expense_repository.get_all_extra_expenses(
             user_id=user_id, db=db
         )

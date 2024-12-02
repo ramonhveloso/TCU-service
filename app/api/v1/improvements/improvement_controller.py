@@ -16,10 +16,13 @@ from app.api.v1.improvements.improvement_schemas import (
     PutImprovementResponse,
 )
 from app.api.v1.improvements.improvement_service import ImprovementService
+from app.api.v1.users.user_repository import UserRepository
+from app.api.v1.users.user_service import UserService
 from app.middleware.dependencies import AuthUser, get_db, jwt_middleware
 
 router = APIRouter()
 improvement_service = ImprovementService(ImprovementRepository())
+user_service = UserService(UserRepository())
 
 
 @router.get("/")
@@ -39,7 +42,10 @@ async def get_improvements_by_user(
     user_id: int,
     db: Session = Depends(get_db),
 ) -> GetImprovementsResponse:
-    response_service = await improvement_service.get_all_improvements(db=db, user_id=user_id)
+    await user_service.verify_is_superuser(db=db, user_id=AuthUser.id)
+    response_service = await improvement_service.get_all_improvements(
+        db=db, user_id=user_id
+    )
     return GetImprovementsResponse.model_validate(response_service)
 
 
@@ -87,7 +93,10 @@ async def put_improvement(
     db: Session = Depends(get_db),
 ) -> PutImprovementResponse:
     response_service = await improvement_service.update_improvement(
-        db=db, user_id=AuthUser.id, improvement_id=improvement_id, improvement=improvement
+        db=db,
+        user_id=AuthUser.id,
+        improvement_id=improvement_id,
+        improvement=improvement,
     )
     return PutImprovementResponse.model_validate(response_service)
 

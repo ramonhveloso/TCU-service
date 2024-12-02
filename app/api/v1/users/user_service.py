@@ -131,3 +131,11 @@ class UserService:
             endereco=str(user.endereco) if user.endereco else None,
             chave_pix=str(user.chave_pix) if user.chave_pix else None,
         )
+
+    async def verify_is_superuser(self, db: Session, user_id: int) -> None:
+        user = await self.user_repository.get_user_by_id(db, user_id)
+        if not user or not user.is_superuser:
+            raise HTTPException(
+                status_code=403 if user else 404,
+                detail="User not found" if not user else "User is not a superuser",
+            )

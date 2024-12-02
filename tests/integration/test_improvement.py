@@ -1,5 +1,3 @@
-from datetime import datetime
-
 import pytest
 
 
@@ -34,7 +32,9 @@ async def test_get_improvements(use_test_client):
     )
     assert post_expenses_response.status_code == 201
 
-    get_expenses_response = use_test_client.get("/api/v1/improvements/", headers=headers)
+    get_expenses_response = use_test_client.get(
+        "/api/v1/improvements/", headers=headers
+    )
     assert get_expenses_response.status_code == 200
 
 
