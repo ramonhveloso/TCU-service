@@ -6,13 +6,12 @@ from app.database.base import Base
 from app.database.session import engine
 
 app = FastAPI(
-    title="Boilerplate Automa",
-    description="""Este projeto é um template base para aplicações 
-                    backend utilizando FastAPI, projetado para acelerar o 
-                    desenvolvimento de novos projetos. Ele segue boas práticas 
-                    de organização, escalabilidade e facilidade de manutenção, 
-                    permitindo que seja reutilizado como ponto de partida para 
-                    diferentes tipos de aplicações.""",
+    title="Microservice TCU",
+    description="""Este repositório contém um microserviço desenvolvido com FastAPI 
+                    para atender às necessidades do Tribunal de Contas da União (TCU). 
+                    O serviço foi projetado para oferecer uma solução eficiente e escalável, 
+                    promovendo a automação e modernização de processos relacionados à fiscalização, 
+                    auditoria e controle.""",
     version="0.1.0",
 )
 
