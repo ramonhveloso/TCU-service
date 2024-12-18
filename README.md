@@ -10,7 +10,7 @@
 
 1. **Crie uma chave SSH e clone o repositório:**
 
-   `git clone git@github.com:ramonhveloso/erp_backend.git`
+   `git clone git@github.com:ramonhveloso/boilerplate-2025.git`
 
 2. **Instale as dependências usando Poetry:**
 
@@ -51,9 +51,11 @@ Para remover o container, use:
 `docker rm automa_local`
 
 ## Executar container em Producao
-## Gerar imagem do container
-   `docker build --progress=plain -t erp-automa-back-end .`
-   `docker-compose up -d`
+## Gerar imagem do container utilizando Make file
+`make up`
+
+## Destruir imagem
+`make clean`
 
 ## Contribuição
 
