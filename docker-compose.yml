@@ -16,7 +16,7 @@ services:
   #  environment:
   #    POSTGRES_USER: admin
   #    POSTGRES_PASSWORD: postgre
-  #    POSTGRES_DB: desenvolvimento
+  #    POSTGRES_DB: tcu
   #  ports:
   #    - "5432:5432"
   #  volumes:
@@ -28,7 +28,7 @@ services:
   #   environment:
   #     POSTGRES_USER: admin
   #     POSTGRES_PASSWORD: postgre
-  #     POSTGRES_DB: tests
+  #     POSTGRES_DB: tcu_tests
   #   ports:
   #     - "5433:5432"
   #   volumes:

@@ -20,13 +20,13 @@
 
    Para executar o PostgreSQL usando Docker, execute o seguinte comando:
 
-   `docker run -p 5432:5432 -e POSTGRES_USER=admin -e POSTGRES_PASSWORD=postgre -e POSTGRES_DB=desenvolvimento -d --name=automa_local postgres:14.10`
+   `docker run -p 5432:5432 -e POSTGRES_USER=admin -e POSTGRES_PASSWORD=postgre -e POSTGRES_DB=tcu -d --name=automa_local postgres:14.10`
 
 4. **Configuração do Alembic:**
 
    - Configure o arquivo `alembic.ini` para apontar para o seu banco de dados PostgreSQL. Certifique-se de que a URL do banco de dados esteja correta.
 
-   `sqlalchemy.url = postgresql://admin:postgre@localhost:5432/desenvolvimento`
+   `sqlalchemy.url = postgresql://admin:postgre@localhost:5432/tcu`
 
 5. **Executar as migrações do Alembic:**
 
