@@ -2,11 +2,7 @@ from sqlalchemy import Boolean, Column, DateTime, Integer, String, func
 from sqlalchemy.orm import relationship
 
 from app.database.base import Base
-from app.database.models.extra_expense import ExtraExpense
-from app.database.models.hourly_rate import HourlyRate
-from app.database.models.improvement import Improvement
 from app.database.models.journey import Journey
-from app.database.models.payment import Payment
 
 
 class User(Base):
@@ -29,7 +25,3 @@ class User(Base):
     deleted_at = Column(DateTime, nullable=True)
     last_modified = Column(DateTime, default=func.now(), onupdate=func.now())
     journeys = relationship(Journey, back_populates="user")
-    payments = relationship(Payment, back_populates="user")
-    hourly_rates = relationship(HourlyRate, back_populates="user")
-    extra_expenses = relationship(ExtraExpense, back_populates="user")
-    improvements = relationship(Improvement, back_populates="user")

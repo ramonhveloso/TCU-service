@@ -6,12 +6,13 @@ from app.database.base import Base
 from app.database.session import engine
 
 app = FastAPI(
-    title="Application Automa",
-    description="""Este projeto consiste em uma aplicação de backend robusta, 
-                    desenvolvida com FastAPI, que fornece uma API RESTful eficiente 
-                    e de alto desempenho. O sistema foi projetado para suportar um 
-                    front-end dinâmico, que foi desenvolvido com a assistência do GPT Engine, 
-                    garantindo uma interface de usuário intuitiva e envolvente.""",
+    title="Boilerplate Automa",
+    description="""Este projeto é um template base para aplicações 
+                    backend utilizando FastAPI, projetado para acelerar o 
+                    desenvolvimento de novos projetos. Ele segue boas práticas 
+                    de organização, escalabilidade e facilidade de manutenção, 
+                    permitindo que seja reutilizado como ponto de partida para 
+                    diferentes tipos de aplicações.""",
     version="0.1.0",
 )
 
