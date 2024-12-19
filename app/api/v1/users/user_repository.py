@@ -7,10 +7,10 @@ from app.database.models.user import User
 
 
 class UserRepository:
-    async def get_user_by_id(self, db: Session, user_id: int):
+    async def get_user_by_id(self, db: Session, id_usuario: int):
         """Obtém o usuário pelo ID."""
         return (
-            db.query(User).filter(User.id == user_id, User.deleted_at == None).first()
+            db.query(User).filter(User.id == id_usuario, User.deleted_at == None).first()
         )
 
     async def get_user_by_email(self, db: Session, email: str):

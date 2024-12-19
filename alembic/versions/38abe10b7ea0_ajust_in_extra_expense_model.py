@@ -48,7 +48,7 @@ def downgrade() -> None:
     op.create_table(
         "journeys",
         sa.Column("id", sa.INTEGER(), autoincrement=True, nullable=False),
-        sa.Column("user_id", sa.INTEGER(), autoincrement=False, nullable=True),
+        sa.Column("id_usuario", sa.INTEGER(), autoincrement=False, nullable=True),
         sa.Column("start", postgresql.TIMESTAMP(), autoincrement=False, nullable=False),
         sa.Column("end", postgresql.TIMESTAMP(), autoincrement=False, nullable=False),
         sa.Column(
@@ -74,7 +74,7 @@ def downgrade() -> None:
             "last_modified", postgresql.TIMESTAMP(), autoincrement=False, nullable=True
         ),
         sa.ForeignKeyConstraint(
-            ["user_id"], ["users.id"], name="journeys_user_id_fkey"
+            ["id_usuario"], ["users.id"], name="journeys_id_usuario_fkey"
         ),
         sa.PrimaryKeyConstraint("id", name="journeys_pkey"),
     )
@@ -135,7 +135,7 @@ def downgrade() -> None:
     op.create_table(
         "payments",
         sa.Column("id", sa.INTEGER(), autoincrement=True, nullable=False),
-        sa.Column("user_id", sa.INTEGER(), autoincrement=False, nullable=True),
+        sa.Column("id_usuario", sa.INTEGER(), autoincrement=False, nullable=True),
         sa.Column(
             "amount",
             sa.DOUBLE_PRECISION(precision=53),
@@ -154,7 +154,7 @@ def downgrade() -> None:
             "last_modified", postgresql.TIMESTAMP(), autoincrement=False, nullable=True
         ),
         sa.ForeignKeyConstraint(
-            ["user_id"], ["users.id"], name="payments_user_id_fkey"
+            ["id_usuario"], ["users.id"], name="payments_id_usuario_fkey"
         ),
         sa.PrimaryKeyConstraint("id", name="payments_pkey"),
     )
@@ -162,7 +162,7 @@ def downgrade() -> None:
     op.create_table(
         "extra_expenses",
         sa.Column("id", sa.INTEGER(), autoincrement=True, nullable=False),
-        sa.Column("user_id", sa.INTEGER(), autoincrement=False, nullable=True),
+        sa.Column("id_usuario", sa.INTEGER(), autoincrement=False, nullable=True),
         sa.Column(
             "amount",
             sa.DOUBLE_PRECISION(precision=53),
@@ -182,7 +182,7 @@ def downgrade() -> None:
             "last_modified", postgresql.TIMESTAMP(), autoincrement=False, nullable=True
         ),
         sa.ForeignKeyConstraint(
-            ["user_id"], ["users.id"], name="extra_expenses_user_id_fkey"
+            ["id_usuario"], ["users.id"], name="extra_expenses_id_usuario_fkey"
         ),
         sa.PrimaryKeyConstraint("id", name="extra_expenses_pkey"),
     )
@@ -190,7 +190,7 @@ def downgrade() -> None:
     op.create_table(
         "hourly_rates",
         sa.Column("id", sa.INTEGER(), autoincrement=True, nullable=False),
-        sa.Column("user_id", sa.INTEGER(), autoincrement=False, nullable=True),
+        sa.Column("id_usuario", sa.INTEGER(), autoincrement=False, nullable=True),
         sa.Column(
             "rate",
             sa.DOUBLE_PRECISION(precision=53),
@@ -224,7 +224,7 @@ def downgrade() -> None:
             "last_modified", postgresql.TIMESTAMP(), autoincrement=False, nullable=True
         ),
         sa.ForeignKeyConstraint(
-            ["user_id"], ["users.id"], name="hourly_rates_user_id_fkey"
+            ["id_usuario"], ["users.id"], name="hourly_rates_id_usuario_fkey"
         ),
         sa.PrimaryKeyConstraint("id", name="hourly_rates_pkey"),
     )

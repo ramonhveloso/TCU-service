@@ -120,10 +120,10 @@ async def test_get_user(use_test_client):
     assert get_me_response.status_code == 200
 
     response_json = get_me_response.json()
-    user_id = response_json["id"]
+    id_usuario = response_json["id"]
 
     headers = {"Authorization": f"Bearer {access_token}"}
-    get_user_response = use_test_client.get(f"/api/v1/users/{user_id}", headers=headers)
+    get_user_response = use_test_client.get(f"/api/v1/users/{id_usuario}", headers=headers)
     assert get_user_response.status_code == 200
 
     response_json = get_user_response.json()
@@ -157,7 +157,7 @@ async def test_put_user(use_test_client):
     assert get_me_response.status_code == 200
 
     response_json = get_me_response.json()
-    user_id = response_json["id"]
+    id_usuario = response_json["id"]
 
     update_user_payload = {
         "username": "devMasterUpdated",
@@ -166,7 +166,7 @@ async def test_put_user(use_test_client):
     }
     headers = {"Authorization": f"Bearer {access_token}"}
     put_user_response = use_test_client.put(
-        f"/api/v1/users/{user_id}", json=update_user_payload, headers=headers
+        f"/api/v1/users/{id_usuario}", json=update_user_payload, headers=headers
     )
     assert put_user_response.status_code == 200
 
@@ -201,14 +201,14 @@ async def test_delete_user(use_test_client):
     assert get_me_response.status_code == 200
 
     response_json = get_me_response.json()
-    user_id = response_json["id"]
+    id_usuario = response_json["id"]
 
     headers = {"Authorization": f"Bearer {access_token}"}
     delete_user_response = use_test_client.delete(
-        f"/api/v1/users/{user_id}", headers=headers
+        f"/api/v1/users/{id_usuario}", headers=headers
     )
     assert delete_user_response.status_code == 200
 
     # Verificando se o usuário foi deletado
-    get_user_response = use_test_client.get(f"/api/v1/users/{user_id}", headers=headers)
+    get_user_response = use_test_client.get(f"/api/v1/users/{id_usuario}", headers=headers)
     assert get_user_response.status_code == 404

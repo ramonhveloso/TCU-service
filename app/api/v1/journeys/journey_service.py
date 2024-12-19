@@ -28,7 +28,7 @@ class JourneyService:
     def _build_response_data(self, response_repository):
         return PostJourneyResponseData(
             id=int(response_repository.id),
-            user_id=int(response_repository.user_id),
+            id_usuario=int(response_repository.id_usuario),
             start=response_repository.start,
             end=response_repository.end,
             hours_worked=float(response_repository.hours_worked),
@@ -39,16 +39,16 @@ class JourneyService:
             last_modified=response_repository.last_modified,
         )
 
-    async def get_all_journeys(self, db: Session, user_id: int) -> GetJourneysResponse:
+    async def get_all_journeys(self, db: Session, id_usuario: int) -> GetJourneysResponse:
         journeys = await self.journey_repository.get_all_journeys(
-            user_id=user_id, db=db
+            id_usuario=id_usuario, db=db
         )
         # if not journeys:
         #     raise HTTPException(status_code=404, detail="Journeys not found")
         journeys_list = [
             Journey(
                 id=journey.id,
-                user_id=journey.user_id,
+                id_usuario=journey.id_usuario,
                 start=journey.start,
                 end=journey.end,
                 hours_worked=journey.hours_worked,
@@ -63,16 +63,16 @@ class JourneyService:
         return GetJourneysResponse(journeys=journeys_list)
 
     async def get_journey_by_id(
-        self, db: Session, user_id: int, journey_id: int
+        self, db: Session, id_usuario: int, journey_id: int
     ) -> GetJourneyResponse:
         journey = await self.journey_repository.get_journey_by_id(
-            db=db, user_id=user_id, journey_id=journey_id
+            db=db, id_usuario=id_usuario, journey_id=journey_id
         )
         if not journey:
             raise HTTPException(status_code=404, detail="Journey not found")
         return GetJourneyResponse(
             id=journey.id,
-            user_id=journey.user_id,
+            id_usuario=journey.id_usuario,
             start=journey.start,
             end=journey.end,
             hours_worked=journey.hours_worked,
@@ -84,11 +84,11 @@ class JourneyService:
         )
 
     async def post_journey(
-        self, db: Session, user_id: int, journey: PostJourneyRequest
+        self, db: Session, id_usuario: int, journey: PostJourneyRequest
     ) -> PostJourneyResponse:
         try:
             response_repository = await self.journey_repository.post_journey(
-                db=db, user_id=user_id, journey=journey
+                db=db, id_usuario=id_usuario, journey=journey
             )
         except Exception:
             raise HTTPException(status_code=400, detail="Journey not created")
@@ -96,7 +96,7 @@ class JourneyService:
             message="Journey created successfully",
             response=PostJourneyResponseData(
                 id=int(response_repository.id),
-                user_id=int(response_repository.user_id),
+                id_usuario=int(response_repository.id_usuario),
                 start=response_repository.start,
                 end=response_repository.end,
                 hours_worked=float(response_repository.hours_worked),
@@ -109,7 +109,7 @@ class JourneyService:
         )
 
     async def post_journeys(
-        self, db: Session, user_id: int, journeys: PostJourneysRequest
+        self, db: Session, id_usuario: int, journeys: PostJourneysRequest
     ) -> PostJourneysResponse:
         list_journeys: list[PostJourneysResponseData] = []
         list_journeys_errors: list[PostJourneysResponseErrorData] = []
@@ -117,7 +117,7 @@ class JourneyService:
         for journey in journeys.journeys:
             try:
                 response_repository = await self.journey_repository.post_journey(
-                    db=db, user_id=user_id, journey=journey
+                    db=db, id_usuario=id_usuario, journey=journey
                 )
                 list_journeys.append(self._build_response_data(response_repository))
 
@@ -140,10 +140,10 @@ class JourneyService:
         )
 
     async def update_journey(
-        self, db: Session, user_id: int, journey_id: int, journey: PutJourneyRequest
+        self, db: Session, id_usuario: int, journey_id: int, journey: PutJourneyRequest
     ) -> PutJourneyResponse:
         existing_journey = await self.journey_repository.get_journey_by_id(
-            db=db, user_id=user_id, journey_id=journey_id
+            db=db, id_usuario=id_usuario, journey_id=journey_id
         )
         if not journey:
             raise HTTPException(status_code=404, detail="Journey not found")
@@ -155,7 +155,7 @@ class JourneyService:
             message="Journey updated successfully",
             response=PutJourneyResponseData(
                 id=updated_journey.id,
-                user_id=updated_journey.user_id,
+                id_usuario=updated_journey.id_usuario,
                 start=updated_journey.start,
                 end=updated_journey.end,
                 hours_worked=updated_journey.hours_worked,
@@ -168,10 +168,10 @@ class JourneyService:
         )
 
     async def delete_journey(
-        self, db: Session, user_id: int, journey_id: int
+        self, db: Session, id_usuario: int, journey_id: int
     ) -> DeleteJourneyResponse:
         journey = await self.journey_repository.get_journey_by_id(
-            db=db, user_id=user_id, journey_id=journey_id
+            db=db, id_usuario=id_usuario, journey_id=journey_id
         )
         if not journey:
             raise HTTPException(status_code=404, detail="Journey not found")
@@ -181,7 +181,7 @@ class JourneyService:
             message="Journey deleted successfully",
             response=DeleteJourneyResponseData(
                 id=deleted_journey.id,
-                user_id=deleted_journey.user_id,
+                id_usuario=deleted_journey.id_usuario,
                 start=deleted_journey.start,
                 end=deleted_journey.end,
                 hours_worked=deleted_journey.hours_worked,

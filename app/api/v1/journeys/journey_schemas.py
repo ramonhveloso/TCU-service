@@ -6,7 +6,7 @@ from pydantic import BaseModel
 
 class Journey(BaseModel):
     id: int
-    user_id: int
+    id_usuario: int
     start: datetime
     end: datetime
     hours_worked: float

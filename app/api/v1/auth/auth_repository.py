@@ -68,8 +68,8 @@ class AuthRepository:
         """Gera um PIN de 6 dígitos."""
         return "".join([str(random.randint(0, 9)) for _ in range(6)])
 
-    async def save_pin(self, db: Session, user_id: int, pin: str, expiration: datetime):
-        user = db.query(User).filter(User.id == user_id).first()
+    async def save_pin(self, db: Session, id_usuario: int, pin: str, expiration: datetime):
+        user = db.query(User).filter(User.id == id_usuario).first()
         user.reset_pin = pin  # type: ignore
         user.reset_pin_expiration = expiration  # type: ignore
         db.add(user)

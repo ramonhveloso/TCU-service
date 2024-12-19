@@ -78,8 +78,8 @@ class UserService:
         ]
         return GetUsersResponse(users=users_list)
 
-    async def get_user_by_id(self, db: Session, user_id: int) -> GetUserResponse:
-        user = await self.user_repository.get_user_by_id(db, user_id)
+    async def get_user_by_id(self, db: Session, id_usuario: int) -> GetUserResponse:
+        user = await self.user_repository.get_user_by_id(db, id_usuario)
         if not user:
             raise HTTPException(status_code=404, detail="User not found")
         return GetUserResponse(
@@ -95,9 +95,9 @@ class UserService:
         )
 
     async def update_user(
-        self, db: Session, user_id: int, data: PutUserRequest
+        self, db: Session, id_usuario: int, data: PutUserRequest
     ) -> PutUserResponse:
-        user = await self.user_repository.get_user_by_id(db, user_id)
+        user = await self.user_repository.get_user_by_id(db, id_usuario)
         if not user:
             raise HTTPException(status_code=404, detail="User not found")
 
@@ -114,8 +114,8 @@ class UserService:
             chave_pix=str(user.chave_pix) if user.chave_pix else None,
         )
 
-    async def delete_user(self, db: Session, user_id: int) -> DeleteUserResponse:
-        user = await self.user_repository.get_user_by_id(db, user_id)
+    async def delete_user(self, db: Session, id_usuario: int) -> DeleteUserResponse:
+        user = await self.user_repository.get_user_by_id(db, id_usuario)
         if not user:
             raise HTTPException(status_code=404, detail="User not found")
 
@@ -132,8 +132,8 @@ class UserService:
             chave_pix=str(user.chave_pix) if user.chave_pix else None,
         )
 
-    async def verify_is_superuser(self, db: Session, user_id: int) -> None:
-        user = await self.user_repository.get_user_by_id(db, user_id)
+    async def verify_is_superuser(self, db: Session, id_usuario: int) -> None:
+        user = await self.user_repository.get_user_by_id(db, id_usuario)
         if not user or not user.is_superuser:
             raise HTTPException(
                 status_code=403 if user else 404,

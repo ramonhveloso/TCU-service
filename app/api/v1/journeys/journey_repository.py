@@ -7,31 +7,31 @@ from app.database.models.journey import Journey
 
 
 class JourneyRepository:
-    async def get_all_journeys(self, user_id: int, db: Session):
+    async def get_all_journeys(self, id_usuario: int, db: Session):
         return (
             db.query(Journey)
-            .filter(Journey.user_id == user_id, Journey.deleted_at == None)
+            .filter(Journey.id_usuario == id_usuario, Journey.deleted_at == None)
             .all()
         )
 
-    async def get_journey_by_id(self, db: Session, user_id: int, journey_id: int):
+    async def get_journey_by_id(self, db: Session, id_usuario: int, journey_id: int):
         return (
             db.query(Journey)
             .filter(
                 Journey.id == journey_id,
-                Journey.user_id == user_id,
+                Journey.id_usuario == id_usuario,
                 Journey.deleted_at == None,
             )
             .first()
         )
 
     async def post_journey(
-        self, db: Session, user_id: int, journey: PostJourneyRequest
+        self, db: Session, id_usuario: int, journey: PostJourneyRequest
     ):
         time_worked = journey.end - journey.start
         hours_worked = time_worked.total_seconds() / 3600
         journey = Journey(
-            user_id=user_id,
+            id_usuario=id_usuario,
             start=journey.start,
             end=journey.end,
             hours_worked=hours_worked,

@@ -57,38 +57,38 @@ async def get_users(
 
 
 # Ver perfil de um usuário específico
-@router.get("/{user_id}")
+@router.get("/{id_usuario}")
 async def get_user(
     authuser: Annotated[AuthUser, Security(jwt_middleware)],
-    user_id: int,
+    id_usuario: int,
     db: Session = Depends(get_db),
 ) -> GetUserResponse:
-    response_service = await user_service.get_user_by_id(db=db, user_id=user_id)
+    response_service = await user_service.get_user_by_id(db=db, id_usuario=id_usuario)
     if not response_service:
         raise HTTPException(status_code=404, detail="User not found")
     return GetUserResponse.model_validate(response_service)
 
 
 # Atualizar dados de um usuário específico
-@router.put("/{user_id}")
+@router.put("/{id_usuario}")
 async def put_user(
     authuser: Annotated[AuthUser, Security(jwt_middleware)],
     data: PutUserRequest,
-    user_id: int,
+    id_usuario: int,
     db: Session = Depends(get_db),
 ) -> PutUserResponse:
-    response_service = await user_service.update_user(db=db, user_id=user_id, data=data)
+    response_service = await user_service.update_user(db=db, id_usuario=id_usuario, data=data)
     return PutUserResponse.model_validate(response_service)
 
 
 # Excluir um usuário específico
-@router.delete("/{user_id}")
+@router.delete("/{id_usuario}")
 async def delete_user(
     authuser: Annotated[AuthUser, Security(jwt_middleware)],
-    user_id: int,
+    id_usuario: int,
     db: Session = Depends(get_db),
 ) -> DeleteUserResponse:
-    response_service = await user_service.delete_user(db=db, user_id=user_id)
+    response_service = await user_service.delete_user(db=db, id_usuario=id_usuario)
     if not response_service:
         raise HTTPException(status_code=404, detail="User not found")
     return DeleteUserResponse.model_validate(response_service)
