@@ -7,7 +7,7 @@ from app.database.models.trechos import TrechoObra
 from app.database.models.obras import Obra
 
 class PlanejamentoVisita(Base):
-    __tablename__ = 'planejamentovisitas'
+    __tablename__ = 'planejamento_visitas'
 
     id_visita = Column(Integer, primary_key=True, autoincrement=True)
     id_trecho = Column(Integer, ForeignKey('trechosobra.id_trecho', ondelete='CASCADE', onupdate='CASCADE'), nullable=False)
@@ -23,5 +23,5 @@ class PlanejamentoVisita(Base):
     last_modified = Column(DateTime, default=func.now(), onupdate=func.now(), nullable=True)
     last_modified_by = Column(String, unique=False, index=True, nullable=True)
     
-    trecho = relationship('TechoObra', backref='planejamentos_visitas')
-    obra = relationship('Obra', backref='planejamentos_visitas')
+    trecho = relationship('TechoObra', backref='planejamento_visitas')
+    obra = relationship('Obra', backref='planejamento_visitas')

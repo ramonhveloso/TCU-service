@@ -7,7 +7,7 @@ from app.database.models.usuarios import Usuario
 from app.database.models.missoes_drones import MissaoDrone
 
 class AvaliacaoProfissional(Base):
-    __tablename__ = 'avaliacaoprofissionais'
+    __tablename__ = 'avaliacao_profissionais'
 
     id_avaliacao = Column(Integer, primary_key=True, autoincrement=True)
     id_usuario = Column(Integer, ForeignKey('usuarios.id_usuario', ondelete='CASCADE', onupdate='CASCADE'), nullable=False)
@@ -22,5 +22,5 @@ class AvaliacaoProfissional(Base):
     last_modified = Column(DateTime, default=func.now(), onupdate=func.now(), nullable=True)
     last_modified_by = Column(String, unique=False, index=True, nullable=True)
 
-    usuario = relationship('Usuario', backref='avaliacoes')
-    missao = relationship('MissaoDrone', backref='avaliacoes')
+    usuario = relationship('Usuario', backref='avaliacao_profissionais')
+    missao = relationship('MissaoDrone', backref='avaliacao_profissionais')

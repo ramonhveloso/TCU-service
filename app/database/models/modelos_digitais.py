@@ -7,7 +7,7 @@ from app.database.models.trechos import TrechoObra
 from app.database.models.obras import Obra
 
 class ModeloDigital(Base):
-    __tablename__ = 'modelosdigitais'
+    __tablename__ = 'modelos_digitais'
 
     id_modelo = Column(Integer, primary_key=True, autoincrement=True)
     id_trecho = Column(Integer, ForeignKey('trechosobra.id_trecho', ondelete='CASCADE', onupdate='CASCADE'), nullable=False)

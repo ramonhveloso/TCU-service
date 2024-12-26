@@ -6,7 +6,7 @@ from sqlalchemy.orm import relationship
 from app.database.models.planejamento_visitas import PlanejamentoVisita
 
 class MissaoDrone(Base):
-    __tablename__ = 'missoesdrones'
+    __tablename__ = 'missoes_drones'
 
     id_missao = Column(Integer, primary_key=True, autoincrement=True)
     id_visita = Column(Integer, ForeignKey('planejamentovisitas.id_visita', ondelete='CASCADE', onupdate='CASCADE'), nullable=False)

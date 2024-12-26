@@ -2,7 +2,7 @@ from sqlalchemy import Column, DateTime, Enum, ForeignKey, Integer, String, Text
 from app.database.base import Base
 
 class LocalVisita(Base):
-    __tablename__ = 'locaisvisita'
+    __tablename__ = 'locais_visita'
 
     id_local = Column(Integer, primary_key=True, autoincrement=True)
     id_visita = Column(Integer, ForeignKey('planejamentovisitas.id_visita', ondelete='CASCADE', onupdate='CASCADE'), nullable=False)

@@ -6,7 +6,7 @@ from sqlalchemy.orm import relationship
 from app.database.models.obras import Obra
 
 class MapaInterativo(Base):
-    __tablename__ = 'mapasinterativos'
+    __tablename__ = 'mapas_interativos'
 
     id_mapa = Column(Integer, primary_key=True, autoincrement=True)
     id_obra = Column(Integer, ForeignKey('obras.id_obra', ondelete='CASCADE', onupdate='CASCADE'), nullable=False)

@@ -6,7 +6,7 @@ from sqlalchemy.orm import relationship
 from app.database.models.obras import Obra
 
 class TrechoObra(Base):
-    __tablename__ = 'trechosobra'
+    __tablename__ = 'trechos_obra'
 
     id_trecho = Column(Integer, primary_key=True, autoincrement=True)
     id_obra = Column(Integer, ForeignKey('obras.id_obra', ondelete='CASCADE', onupdate='CASCADE'), nullable=False)

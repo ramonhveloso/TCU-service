@@ -6,7 +6,7 @@ from sqlalchemy.orm import relationship
 from app.database.models.analises import Analise
 
 class SubAnaliseRisco(Base):
-    __tablename__ = 'subanalisesriscos'
+    __tablename__ = 'subanalises_riscos'
 
     id_subanalise = Column(Integer, primary_key=True, autoincrement=True)
     id_analise = Column(Integer, ForeignKey('analises.id_analise', ondelete='CASCADE', onupdate='CASCADE'), nullable=False)
@@ -21,4 +21,4 @@ class SubAnaliseRisco(Base):
     last_modified = Column(DateTime, default=func.now(), onupdate=func.now(), nullable=True)
     last_modified_by = Column(String, unique=False, index=True, nullable=True)
     
-    analise = relationship('Analise', backref='sub_analises')
+    analise = relationship('Analise', backref='subanalises_riscos')
