@@ -1,13 +1,13 @@
 from fastapi import Depends, HTTPException
 from sqlalchemy.orm import Session
 
-from app.api.v1.journeys.journey_repository import JourneyRepository
-from app.api.v1.journeys.journey_schemas import (
+from app.api.v1.analises.analise_repository import JourneyRepository
+from app.api.v1.analises.analise_schemas import (
     DeleteJourneyResponse,
     DeleteJourneyResponseData,
     GetJourneyResponse,
     GetJourneysResponse,
-    Journey,
+    Analise,
     PostJourneyRequest,
     PostJourneyResponse,
     PostJourneyResponseData,
@@ -40,60 +40,60 @@ class JourneyService:
         )
 
     async def get_all_journeys(self, db: Session, id_usuario: int) -> GetJourneysResponse:
-        journeys = await self.journey_repository.get_all_journeys(
+        analises = await self.journey_repository.get_all_journeys(
             id_usuario=id_usuario, db=db
         )
-        # if not journeys:
+        # if not analises:
         #     raise HTTPException(status_code=404, detail="Journeys not found")
         journeys_list = [
-            Journey(
-                id=journey.id,
-                id_usuario=journey.id_usuario,
-                start=journey.start,
-                end=journey.end,
-                hours_worked=journey.hours_worked,
-                hourly_rate=journey.hourly_rate,
-                description=journey.description,
-                created_at=journey.created_at,
-                deleted_at=journey.deleted_at,
-                last_modified=journey.last_modified,
+            Analise(
+                id=analise.id,
+                id_usuario=analise.id_usuario,
+                start=analise.start,
+                end=analise.end,
+                hours_worked=analise.hours_worked,
+                hourly_rate=analise.hourly_rate,
+                description=analise.description,
+                created_at=analise.created_at,
+                deleted_at=analise.deleted_at,
+                last_modified=analise.last_modified,
             )
-            for journey in journeys
+            for analise in analises
         ]
-        return GetJourneysResponse(journeys=journeys_list)
+        return GetJourneysResponse(analises=journeys_list)
 
     async def get_journey_by_id(
         self, db: Session, id_usuario: int, journey_id: int
     ) -> GetJourneyResponse:
-        journey = await self.journey_repository.get_journey_by_id(
+        analise = await self.journey_repository.get_journey_by_id(
             db=db, id_usuario=id_usuario, journey_id=journey_id
         )
-        if not journey:
-            raise HTTPException(status_code=404, detail="Journey not found")
+        if not analise:
+            raise HTTPException(status_code=404, detail="Analise not found")
         return GetJourneyResponse(
-            id=journey.id,
-            id_usuario=journey.id_usuario,
-            start=journey.start,
-            end=journey.end,
-            hours_worked=journey.hours_worked,
-            hourly_rate=journey.hourly_rate,
-            description=journey.description,
-            created_at=journey.created_at,
-            deleted_at=journey.deleted_at,
-            last_modified=journey.last_modified,
+            id=analise.id,
+            id_usuario=analise.id_usuario,
+            start=analise.start,
+            end=analise.end,
+            hours_worked=analise.hours_worked,
+            hourly_rate=analise.hourly_rate,
+            description=analise.description,
+            created_at=analise.created_at,
+            deleted_at=analise.deleted_at,
+            last_modified=analise.last_modified,
         )
 
     async def post_journey(
-        self, db: Session, id_usuario: int, journey: PostJourneyRequest
+        self, db: Session, id_usuario: int, analise: PostJourneyRequest
     ) -> PostJourneyResponse:
         try:
             response_repository = await self.journey_repository.post_journey(
-                db=db, id_usuario=id_usuario, journey=journey
+                db=db, id_usuario=id_usuario, analise=analise
             )
         except Exception:
-            raise HTTPException(status_code=400, detail="Journey not created")
+            raise HTTPException(status_code=400, detail="Analise not created")
         return PostJourneyResponse(
-            message="Journey created successfully",
+            message="Analise created successfully",
             response=PostJourneyResponseData(
                 id=int(response_repository.id),
                 id_usuario=int(response_repository.id_usuario),
@@ -109,15 +109,15 @@ class JourneyService:
         )
 
     async def post_journeys(
-        self, db: Session, id_usuario: int, journeys: PostJourneysRequest
+        self, db: Session, id_usuario: int, analises: PostJourneysRequest
     ) -> PostJourneysResponse:
         list_journeys: list[PostJourneysResponseData] = []
         list_journeys_errors: list[PostJourneysResponseErrorData] = []
 
-        for journey in journeys.journeys:
+        for analise in analises.analises:
             try:
                 response_repository = await self.journey_repository.post_journey(
-                    db=db, id_usuario=id_usuario, journey=journey
+                    db=db, id_usuario=id_usuario, analise=analise
                 )
                 list_journeys.append(self._build_response_data(response_repository))
 
@@ -140,19 +140,19 @@ class JourneyService:
         )
 
     async def update_journey(
-        self, db: Session, id_usuario: int, journey_id: int, journey: PutJourneyRequest
+        self, db: Session, id_usuario: int, journey_id: int, analise: PutJourneyRequest
     ) -> PutJourneyResponse:
         existing_journey = await self.journey_repository.get_journey_by_id(
             db=db, id_usuario=id_usuario, journey_id=journey_id
         )
-        if not journey:
-            raise HTTPException(status_code=404, detail="Journey not found")
+        if not analise:
+            raise HTTPException(status_code=404, detail="Analise not found")
 
         updated_journey = await self.journey_repository.update_journey(
-            db=db, existing_journey=existing_journey, journey=journey
+            db=db, existing_journey=existing_journey, analise=analise
         )
         return PutJourneyResponse(
-            message="Journey updated successfully",
+            message="Analise updated successfully",
             response=PutJourneyResponseData(
                 id=updated_journey.id,
                 id_usuario=updated_journey.id_usuario,
@@ -170,15 +170,15 @@ class JourneyService:
     async def delete_journey(
         self, db: Session, id_usuario: int, journey_id: int
     ) -> DeleteJourneyResponse:
-        journey = await self.journey_repository.get_journey_by_id(
+        analise = await self.journey_repository.get_journey_by_id(
             db=db, id_usuario=id_usuario, journey_id=journey_id
         )
-        if not journey:
-            raise HTTPException(status_code=404, detail="Journey not found")
+        if not analise:
+            raise HTTPException(status_code=404, detail="Analise not found")
 
-        deleted_journey = await self.journey_repository.delete_journey(db, journey)
+        deleted_journey = await self.journey_repository.delete_journey(db, analise)
         return DeleteJourneyResponse(
-            message="Journey deleted successfully",
+            message="Analise deleted successfully",
             response=DeleteJourneyResponseData(
                 id=deleted_journey.id,
                 id_usuario=deleted_journey.id_usuario,

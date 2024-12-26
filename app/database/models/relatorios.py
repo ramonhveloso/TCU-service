@@ -3,14 +3,14 @@ from app.database.base import Base
 
 from sqlalchemy.orm import relationship
 
-from app.database.models.analises import Analises
+from app.database.models.analises import Analise
 
-class Relatorios(Base):
+class Relatorio(Base):
     __tablename__ = 'relatorios'
 
     id_relatorio = Column(Integer, primary_key=True, autoincrement=True)
     id_analise = Column(Integer, ForeignKey('analises.id_analise', ondelete='CASCADE', onupdate='CASCADE'), nullable=False)
-    tipo_relatorio = Column(Enum('Alerta', 'Indicador', 'Gráfico'), nullable=False)
+    tipo_relatorio = Column(Enum('Alerta', 'Indicador', 'Gráfico', name="tipo_relatorio"), nullable=False)
     caminho_arquivo = Column(Text, nullable=False)
     data_geracao = Column(Date, nullable=False)
     created_at = Column(DateTime, default=func.now(), nullable=False)
@@ -20,4 +20,4 @@ class Relatorios(Base):
     last_modified = Column(DateTime, default=func.now(), onupdate=func.now(), nullable=True)
     last_modified_by = Column(String, unique=False, index=True, nullable=True)
     
-    analise = relationship('Analises', backref='relatorios')
+    analise = relationship('Analise', backref='relatorios')

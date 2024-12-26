@@ -3,8 +3,8 @@ from typing import Annotated
 from fastapi import APIRouter, Depends, HTTPException, Security
 from sqlalchemy.orm import Session
 
-from app.api.v1.users.user_repository import UserRepository
-from app.api.v1.users.user_schemas import (
+from app.api.v1.usuarios.usuario_repository import UsuarioRepository
+from app.api.v1.usuarios.usuario_schemas import (
     DeleteUserResponse,
     GetUserResponse,
     GetUsersMeResponse,
@@ -14,11 +14,11 @@ from app.api.v1.users.user_schemas import (
     PutUsersMeRequest,
     PutUsersMeResponse,
 )
-from app.api.v1.users.user_service import UserService
+from app.api.v1.usuarios.usuario_service import UsuarioService
 from app.middleware.dependencies import AuthUser, get_db, jwt_middleware
 
 router = APIRouter()
-user_service = UserService(UserRepository())
+user_service = UsuarioService(UsuarioRepository())
 
 
 # Obter perfil do usuário autenticado
@@ -65,7 +65,7 @@ async def get_user(
 ) -> GetUserResponse:
     response_service = await user_service.get_user_by_id(db=db, id_usuario=id_usuario)
     if not response_service:
-        raise HTTPException(status_code=404, detail="User not found")
+        raise HTTPException(status_code=404, detail="Usuario not found")
     return GetUserResponse.model_validate(response_service)
 
 
@@ -90,5 +90,5 @@ async def delete_user(
 ) -> DeleteUserResponse:
     response_service = await user_service.delete_user(db=db, id_usuario=id_usuario)
     if not response_service:
-        raise HTTPException(status_code=404, detail="User not found")
+        raise HTTPException(status_code=404, detail="Usuario not found")
     return DeleteUserResponse.model_validate(response_service)

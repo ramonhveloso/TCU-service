@@ -3,10 +3,10 @@ from app.database.base import Base
 
 from sqlalchemy.orm import relationship
 
-from app.database.models.usuarios import Usuarios
-from app.database.models.missoes_drones import MissoesDrones
+from app.database.models.usuarios import Usuario
+from app.database.models.missoes_drones import MissaoDrone
 
-class AvaliacaoProfissionais(Base):
+class AvaliacaoProfissional(Base):
     __tablename__ = 'avaliacaoprofissionais'
 
     id_avaliacao = Column(Integer, primary_key=True, autoincrement=True)
@@ -22,5 +22,5 @@ class AvaliacaoProfissionais(Base):
     last_modified = Column(DateTime, default=func.now(), onupdate=func.now(), nullable=True)
     last_modified_by = Column(String, unique=False, index=True, nullable=True)
 
-    usuario = relationship('Usuarios', backref='avaliacoes')
-    missao = relationship('MissoesDrones', backref='avaliacoes')
+    usuario = relationship('Usuario', backref='avaliacoes')
+    missao = relationship('MissaoDrone', backref='avaliacoes')

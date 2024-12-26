@@ -3,10 +3,10 @@ from app.database.base import Base
 
 from sqlalchemy.orm import relationship
 
-from app.database.models.analises import Analises
-from app.database.models.subanalises_riscos import SubAnalisesRiscos 
+from app.database.models.analises import Analise
+from app.database.models.subanalises_riscos import SubAnaliseRisco
 
-class Comparacoes(Base):
+class Comparacao(Base):
     __tablename__ = 'comparacoes'
 
     id_comparacao = Column(Integer, primary_key=True, autoincrement=True)
@@ -22,5 +22,5 @@ class Comparacoes(Base):
     last_modified = Column(DateTime, default=func.now(), onupdate=func.now(), nullable=True)
     last_modified_by = Column(String, unique=False, index=True, nullable=True)
 
-    analise = relationship('Analises', backref='comparacoes')
-    sub_analise = relationship('SubAnalisesRiscos', backref='comparacoes')
+    analise = relationship('Analise', backref='comparacoes')
+    sub_analise = relationship('SubAnaliseRisco', backref='comparacoes')

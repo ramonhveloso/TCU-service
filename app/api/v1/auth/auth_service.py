@@ -10,7 +10,6 @@ from app.api.v1.auth.auth_schemas import (
     PostForgotPasswordRequest,
     PostForgotPasswordResponse,
     PostLoginResponse,
-    PostLogoutResponse,
     PostResetPasswordRequest,
     PostResetPasswordResponse,
     PostSignUpRequest,
@@ -68,12 +67,12 @@ class AuthService:
         }
         return PostLoginResponse(**response)
 
-    async def logout(self, db: Session, authuser: AuthUser) -> PostLogoutResponse:
-        # Logout do usuário, adicionando o token à blacklist
-        if authuser.token is None:
-            raise HTTPException(status_code=400, detail="Invalid token")
-        await self.auth_repository.add_token(db, authuser.token)
-        return PostLogoutResponse(message="Successfully logged out")
+    # async def logout(self, db: Session, authuser: AuthUser) -> PostLogoutResponse:
+    #     # Logout do usuário, adicionando o token à blacklist
+    #     if authuser.token is None:
+    #         raise HTTPException(status_code=400, detail="Invalid token")
+    #     await self.auth_repository.add_token(db, authuser.token)
+    #     return PostLogoutResponse(message="Successfully logged out")
 
     async def is_token_blacklisted(self, db: Session, token: str) -> bool:
         """Verifica se um token está na blacklist."""

@@ -68,7 +68,7 @@ class PutUsersMeResponse(BaseModel):
         return cls(**data)
 
 
-class User(BaseModel):
+class Usuario(BaseModel):
     id: int
     username: str
     email: EmailStr
@@ -92,7 +92,7 @@ class User(BaseModel):
 
 
 class GetUsersResponse(BaseModel):
-    users: Optional[List[User]] = []
+    users: Optional[List[Usuario]] = []
 
     class Config:
         from_attributes = True

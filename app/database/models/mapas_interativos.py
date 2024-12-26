@@ -3,9 +3,9 @@ from app.database.base import Base
 
 from sqlalchemy.orm import relationship
 
-from app.database.models.obras import Obras
+from app.database.models.obras import Obra
 
-class MapasInterativos(Base):
+class MapaInterativo(Base):
     __tablename__ = 'mapasinterativos'
 
     id_mapa = Column(Integer, primary_key=True, autoincrement=True)
@@ -19,4 +19,4 @@ class MapasInterativos(Base):
     last_modified = Column(DateTime, default=func.now(), onupdate=func.now(), nullable=True)
     last_modified_by = Column(String, unique=False, index=True, nullable=True)
 
-    obra = relationship('Obras', backref='mapas_interativos')
+    obra = relationship('Obra', backref='mapas_interativos')

@@ -2,7 +2,7 @@ from sqlalchemy import DECIMAL, Column, Date, DateTime, Integer, String, Text, E
 from app.database.base import Base
 
     
-class Obras(Base):
+class Obra(Base):
     __tablename__ = 'obras'
 
     id_obra = Column(Integer, primary_key=True, autoincrement=True)
@@ -11,7 +11,7 @@ class Obras(Base):
     orcamento_total = Column(DECIMAL(18, 2), nullable=False)
     data_inicio_prevista = Column(Date, nullable=False)
     data_termino_prevista = Column(Date, nullable=False)
-    status = Column(Enum('Planejada', 'Em Execução', 'Concluída', 'Paralisada'), nullable=False)
+    status = Column(Enum('Planejada', 'Em Execução', 'Concluída', 'Paralisada', name="obra_status"), nullable=False)
     localizacao_principal = Column(String(255), nullable=False)
     fonte_recursos = Column(String(255), nullable=False)
     created_at = Column(DateTime, default=func.now(), nullable=False)

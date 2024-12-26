@@ -1,8 +1,8 @@
 from fastapi import Depends, HTTPException
 from sqlalchemy.orm import Session
 
-from app.api.v1.users.user_repository import UserRepository
-from app.api.v1.users.user_schemas import (
+from app.api.v1.usuarios.usuario_repository import UsuarioRepository
+from app.api.v1.usuarios.usuario_schemas import (
     DeleteUserResponse,
     GetUserResponse,
     GetUsersMeResponse,
@@ -11,13 +11,13 @@ from app.api.v1.users.user_schemas import (
     PutUserResponse,
     PutUsersMeRequest,
     PutUsersMeResponse,
-    User,
+    Usuario,
 )
 from app.middleware.dependencies import AuthUser
 
 
-class UserService:
-    def __init__(self, user_repository: UserRepository = Depends()):
+class UsuarioService:
+    def __init__(self, user_repository: UsuarioRepository = Depends()):
         self.user_repository = user_repository
 
     async def get_authenticated_user(
@@ -25,7 +25,7 @@ class UserService:
     ) -> GetUsersMeResponse:
         user = await self.user_repository.get_user_by_id(db, authuser.id)
         if not user:
-            raise HTTPException(status_code=404, detail="User not found")
+            raise HTTPException(status_code=404, detail="Usuario not found")
         return GetUsersMeResponse(
             id=int(user.id),
             username=str(user.username),
@@ -43,7 +43,7 @@ class UserService:
     ) -> PutUsersMeResponse:
         user = await self.user_repository.get_user_by_id(db, authuser.id)
         if not user:
-            raise HTTPException(status_code=404, detail="User not found")
+            raise HTTPException(status_code=404, detail="Usuario not found")
 
         updated_user = await self.user_repository.update_user_profile(db, user, data)
         return PutUsersMeResponse(
@@ -61,7 +61,7 @@ class UserService:
     async def get_all_users(self, db: Session) -> GetUsersResponse:
         users = await self.user_repository.get_all_users(db)
         users_list = [
-            User(
+            Usuario(
                 id=user.id,
                 email=user.email,
                 name=user.name,
@@ -81,7 +81,7 @@ class UserService:
     async def get_user_by_id(self, db: Session, id_usuario: int) -> GetUserResponse:
         user = await self.user_repository.get_user_by_id(db, id_usuario)
         if not user:
-            raise HTTPException(status_code=404, detail="User not found")
+            raise HTTPException(status_code=404, detail="Usuario not found")
         return GetUserResponse(
             id=user.id,
             username=user.username,
@@ -99,7 +99,7 @@ class UserService:
     ) -> PutUserResponse:
         user = await self.user_repository.get_user_by_id(db, id_usuario)
         if not user:
-            raise HTTPException(status_code=404, detail="User not found")
+            raise HTTPException(status_code=404, detail="Usuario not found")
 
         updated_user = await self.user_repository.update_user(db, user, data)
         return PutUserResponse(
@@ -117,7 +117,7 @@ class UserService:
     async def delete_user(self, db: Session, id_usuario: int) -> DeleteUserResponse:
         user = await self.user_repository.get_user_by_id(db, id_usuario)
         if not user:
-            raise HTTPException(status_code=404, detail="User not found")
+            raise HTTPException(status_code=404, detail="Usuario not found")
 
         deleted_user = await self.user_repository.delete_user(db, user)
         return DeleteUserResponse(
@@ -137,5 +137,5 @@ class UserService:
         if not user or not user.is_superuser:
             raise HTTPException(
                 status_code=403 if user else 404,
-                detail="User not found" if not user else "User is not a superuser",
+                detail="Usuario not found" if not user else "Usuario is not a superuser",
             )

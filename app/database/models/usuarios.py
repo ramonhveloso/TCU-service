@@ -2,7 +2,7 @@ from sqlalchemy import Column, DateTime, Integer, String, Text, Enum, func
 from app.database.base import Base
 
     
-class Usuarios(Base):
+class Usuario(Base):
     __tablename__ = 'usuarios'
 
     id_usuario = Column(Integer, primary_key=True, autoincrement=True)
@@ -10,7 +10,7 @@ class Usuarios(Base):
     usuario = Column(String(255), nullable=False)
     email = Column(String(255), nullable=False)
     senha = Column(Text, nullable=False)
-    papel = Column(Enum('Admin', 'Operador', 'Consultor'), nullable=False)
+    papel = Column(Enum('Admin', 'Operador', 'Consultor', name="papel_cargo"), nullable=False)
     certificacoes = Column(Text, nullable=False)
     status = Column(String(15), nullable=False)
     data_hora = Column(DateTime, nullable=False)

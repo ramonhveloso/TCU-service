@@ -1,12 +1,12 @@
 from sqlalchemy import Column, DateTime, Enum, ForeignKey, Integer, String, Text, func
 from app.database.base import Base
 
-class LocaisVisita(Base):
+class LocalVisita(Base):
     __tablename__ = 'locaisvisita'
 
     id_local = Column(Integer, primary_key=True, autoincrement=True)
     id_visita = Column(Integer, ForeignKey('planejamentovisitas.id_visita', ondelete='CASCADE', onupdate='CASCADE'), nullable=False)
-    tipo_local = Column(Enum('Obra', 'Jazida', 'Bota-fora'), nullable=False)
+    tipo_local = Column(Enum('Obra', 'Jazida', 'Bota-fora', name="tipo_local"), nullable=False)
     endereco = Column(Text, nullable=False)
     notas = Column(Text, nullable=False)
     created_at = Column(DateTime, default=func.now(), nullable=False)

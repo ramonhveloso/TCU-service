@@ -2,25 +2,25 @@ from datetime import datetime
 
 from sqlalchemy.orm import Session
 
-from app.api.v1.users.user_schemas import PutUserRequest, PutUsersMeRequest
-from app.database.models.user import User
+from app.api.v1.usuarios.usuario_schemas import PutUserRequest, PutUsersMeRequest
+from app.database.models.usuarios import Usuario
 
 
-class UserRepository:
+class UsuarioRepository:
     async def get_user_by_id(self, db: Session, id_usuario: int):
         """Obtém o usuário pelo ID."""
         return (
-            db.query(User).filter(User.id == id_usuario, User.deleted_at == None).first()
+            db.query(Usuario).filter(Usuario.id == id_usuario, Usuario.deleted_at == None).first()
         )
 
     async def get_user_by_email(self, db: Session, email: str):
         """Obtém o usuário pelo email."""
         return (
-            db.query(User).filter(User.email == email, User.deleted_at == None).first()
+            db.query(Usuario).filter(Usuario.email == email, Usuario.deleted_at == None).first()
         )
 
     async def update_user_profile(
-        self, db: Session, user: User, data: PutUsersMeRequest
+        self, db: Session, user: Usuario, data: PutUsersMeRequest
     ):
         """Atualiza o perfil do usuário autenticado."""
         user.name = data.name if data.name else user.name  # type: ignore
@@ -37,7 +37,7 @@ class UserRepository:
         db.refresh(user)
         return user
 
-    async def update_user(self, db: Session, user: User, data: PutUserRequest):
+    async def update_user(self, db: Session, user: Usuario, data: PutUserRequest):
         """Atualiza os dados de um usuário específico."""
         user.name = data.name if data.name else user.name  # type: ignore
         user.email = data.email if data.email else user.email  # type: ignore
@@ -52,7 +52,7 @@ class UserRepository:
         db.refresh(user)
         return user
 
-    async def delete_user(self, db: Session, user: User):
+    async def delete_user(self, db: Session, user: Usuario):
         """Exclui um usuário do banco de dados."""
         user.deleted_at = datetime.now()  # type: ignore
         user.last_modified = datetime.now()  # type: ignore
@@ -62,4 +62,4 @@ class UserRepository:
 
     async def get_all_users(self, db: Session):
         """Retorna todos os usuários no banco de dados."""
-        return db.query(User).all()
+        return db.query(Usuario).all()

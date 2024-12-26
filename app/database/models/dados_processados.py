@@ -3,14 +3,14 @@ from app.database.base import Base
 
 from sqlalchemy.orm import relationship
 
-from app.database.models.obras import Obras
+from app.database.models.obras import Obra
 
-class DadosProcessados(Base):
+class DadoProcessado(Base):
     __tablename__ = 'dadosprocessados'
 
     id_dados = Column(Integer, primary_key=True, autoincrement=True)
     id_obra = Column(Integer, ForeignKey('obras.id_obra', ondelete='CASCADE', onupdate='CASCADE'), nullable=False)
-    tipo_dado = Column(Enum('Medições', 'Modelos 3D', 'Parâmetros Analíticos'), nullable=False)
+    tipo_dado = Column(Enum('Medições', 'Modelos 3D', 'Parâmetros Analíticos', name="tipo_dado"), nullable=False)
     descricao = Column(Text, nullable=False)
     caminho_arquivo = Column(Text, nullable=False)
     data_processamento = Column(Date, nullable=False)
@@ -21,4 +21,4 @@ class DadosProcessados(Base):
     last_modified = Column(DateTime, default=func.now(), onupdate=func.now(), nullable=True)
     last_modified_by = Column(String, unique=False, index=True, nullable=True)
 
-    obra = relationship('Obras', backref='dados_processados')
+    obra = relationship('Obra', backref='dados_processados')

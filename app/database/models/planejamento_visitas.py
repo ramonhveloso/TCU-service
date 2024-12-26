@@ -3,10 +3,10 @@ from app.database.base import Base
 
 from sqlalchemy.orm import relationship
 
-from app.database.models.trechos import TrechosObra
-from app.database.models.obras import Obras
+from app.database.models.trechos import TrechoObra
+from app.database.models.obras import Obra
 
-class PlanejamentoVisitas(Base):
+class PlanejamentoVisita(Base):
     __tablename__ = 'planejamentovisitas'
 
     id_visita = Column(Integer, primary_key=True, autoincrement=True)
@@ -14,8 +14,8 @@ class PlanejamentoVisitas(Base):
     id_obra = Column(Integer, ForeignKey('obras.id_obra', ondelete='CASCADE', onupdate='CASCADE'), nullable=False)
     data_planejada = Column(Date, nullable=False)
     responsavel = Column(String(255), nullable=False)
-    objetivo = Column(Enum('Inspeção Terrestre', 'Missão Drone'), nullable=False)
-    tipo_local = Column(Enum('Obra', 'Jazida', 'Bota-fora'), nullable=False)
+    objetivo = Column(Enum('Inspeção Terrestre', 'Missão Drone', name="objetivo"), nullable=False)
+    tipo_local = Column(Enum('Obra', 'Jazida', 'Bota-fora', name="tipo_local"), nullable=False)
     created_at = Column(DateTime, default=func.now(), nullable=False)
     created_by = Column(String, unique=False, index=True, nullable=False)
     deleted_at = Column(DateTime, nullable=True)
@@ -23,5 +23,5 @@ class PlanejamentoVisitas(Base):
     last_modified = Column(DateTime, default=func.now(), onupdate=func.now(), nullable=True)
     last_modified_by = Column(String, unique=False, index=True, nullable=True)
     
-    trecho = relationship('TrechosObra', backref='planejamentos_visitas')
-    obra = relationship('Obras', backref='planejamentos_visitas')
+    trecho = relationship('TechoObra', backref='planejamentos_visitas')
+    obra = relationship('Obra', backref='planejamentos_visitas')

@@ -4,7 +4,7 @@ from typing import List, Optional
 from pydantic import BaseModel
 
 
-class Journey(BaseModel):
+class Analise(BaseModel):
     id: int
     id_usuario: int
     start: datetime
@@ -27,7 +27,7 @@ class Journey(BaseModel):
 
 
 class GetJourneysResponse(BaseModel):
-    journeys: Optional[List[Journey]] = []
+    analises: Optional[List[Analise]] = []
 
     class Config:
         from_attributes = True
@@ -39,7 +39,7 @@ class GetJourneysResponse(BaseModel):
         return cls(**data)
 
 
-class GetJourneyResponse(Journey):
+class GetJourneyResponse(Analise):
     pass
 
 
@@ -60,7 +60,7 @@ class PostJourneyRequest(BaseModel):
 
 
 class PostJourneysRequest(BaseModel):
-    journeys: List[PostJourneyRequest]
+    analises: List[PostJourneyRequest]
 
     class Config:
         from_attributes = True
@@ -72,7 +72,7 @@ class PostJourneysRequest(BaseModel):
         return cls(**data)
 
 
-class PostJourneyResponseData(Journey):
+class PostJourneyResponseData(Analise):
     pass
 
 
@@ -81,7 +81,7 @@ class PostJourneyResponse(BaseModel):
     response: PostJourneyResponseData
 
 
-class PostJourneysResponseData(Journey):
+class PostJourneysResponseData(Analise):
     pass
 
 
@@ -112,7 +112,7 @@ class PutJourneyRequest(BaseModel):
         return cls(**data)
 
 
-class PutJourneyResponseData(Journey):
+class PutJourneyResponseData(Analise):
     pass
 
 
@@ -130,7 +130,7 @@ class PutJourneyResponse(BaseModel):
         return cls(**data)
 
 
-class DeleteJourneyResponseData(Journey):
+class DeleteJourneyResponseData(Analise):
     pass
 
 
